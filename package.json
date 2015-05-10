@@ -1,0 +1,28 @@
+{
+  "name": "react-native-mail",
+  "version": "0.1.0",
+  "description": "A react-native wrapper for MFMailComposeViewController",
+  "author": {
+    "name": "Chirag Jain",
+    "email": "jain_chirag04@yahoo.com",
+    "url": "http://chiragjain.tumblr.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:chirag04/react-native-mail.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "react-component",
+    "ios",
+    "mail",
+    "MFMailComposeViewController"
+  ],
+  "dependencies": {
+    "react-native": "^0.4.2"
+  },
+  "devDependencies": {
+    "jest-cli": "0.2.1"
+  }
+}
