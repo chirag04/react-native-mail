@@ -14,7 +14,7 @@ A react-native wrapper on top of apple's ``MFMailComposeViewController``.
 
 ## Example
 ```javascript
-var Mailer = require('react-native-mail');
+var Mailer = require('NativeModules').RNMail;
 
 var MailExampleApp = React.createClass({
   handleHelp: function() {
