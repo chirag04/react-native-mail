@@ -3,6 +3,4 @@
 
 @interface RNMail : NSObject <RCTBridgeModule, MFMailComposeViewControllerDelegate>
 
-@property (nonatomic, strong) RCTResponseSenderBlock done;
-
 @end
