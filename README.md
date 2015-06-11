@@ -9,7 +9,7 @@ A react-native wrapper on top of apple's ``MFMailComposeViewController``.
    Files to "Your Project Name"` [(Screenshot)](http://url.brentvatne.ca/jQp8) then [(Screenshot)](http://url.brentvatne.ca/1gqUD).
 3. Add `libRNMail.a` to `Build Phases -> Link Binary With Libraries`
    [(Screenshot)](http://url.brentvatne.ca/17Xfe).
-4. Whenever you want to use it within React code now you can: `var Overlay = require('react-native-mail');`
+4. Whenever you want to use it within React code now you can: `var Mailer = require('NativeModules').RNMail;`
 
 
 ## Example
