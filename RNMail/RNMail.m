@@ -1,6 +1,7 @@
 #import <MessageUI/MessageUI.h>
 #import "RNMail.h"
 #import "RCTConvert.h"
+#import "RCTLog.h"
 
 @implementation RNMail
 {
