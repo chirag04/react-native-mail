@@ -1,6 +1,6 @@
 {
   "name": "react-native-mail",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A react-native wrapper for MFMailComposeViewController",
   "author": {
     "name": "Chirag Jain",
@@ -19,7 +19,7 @@
     "mail",
     "MFMailComposeViewController"
   ],
-  "dependencies": {
-    "react-native": "^0.5.0"
+  "peerDependencies": {
+    "react-native": ">= 0.4 || 0.7.0-rc1"
   }
 }
