@@ -1,6 +1,7 @@
 # react-native-mail
 
-A react-native wrapper on top of apple's ``MFMailComposeViewController``.
+A React Native wrapper for Apple's ``MFMailComposeViewController``.
+Supports emails with attachments.
 
 ### Add it to your project
 
@@ -21,7 +22,10 @@ var MailExampleApp = React.createClass({
     Mailer.mail({
       subject: 'need help',
       recipients: ['support@example.com'],
-      body: ''
+      body: '',
+      attachmentPath: '',  // The absolute path of the file from which to read data.
+      attachmentType: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
+      attachmentName: '',   // Optional: Custom filename for attachment
     }, (error, event) => {
         if(error) {
           AlertIOS.alert('Error', 'Could not send mail. Please send a mail to support@example.com');
