@@ -47,10 +47,10 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             [mail setToRecipients:recipients];
         }
         
-        if (options[@"attachmentPath"] && options[@"attachmentType"]){
-            NSString *attachmentPath = [RCTConvert NSString:options[@"attachmentPath"]];
-            NSString *attachmentType = [RCTConvert NSString:options[@"attachmentType"]];
-            NSString *attachmentName = [RCTConvert NSString:options[@"attachmentName"]];
+        if (options[@"attachment"][@"path"] && options[@"attachment"][@"name"]){
+            NSString *attachmentPath = [RCTConvert NSString:options[@"attachment"][@"path"]];
+            NSString *attachmentType = [RCTConvert NSString:options[@"attachment"][@"type"]];
+            NSString *attachmentName = [RCTConvert NSString:options[@"attachment"][@"name"]];
             
             // Set default filename if not specificed
             if (!attachmentName) {
@@ -62,6 +62,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             
             // Determine the MIME type
             NSString *mimeType;
+            
             if ([attachmentType isEqualToString:@"jpg"]) {
                 mimeType = @"image/jpeg";
             } else if ([attachmentType isEqualToString:@"png"]) {

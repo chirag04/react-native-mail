@@ -23,9 +23,11 @@ var MailExampleApp = React.createClass({
       subject: 'need help',
       recipients: ['support@example.com'],
       body: '',
-      attachmentPath: '',  // The absolute path of the file from which to read data.
-      attachmentType: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
-      attachmentName: '',   // Optional: Custom filename for attachment
+      attachment: {
+        path: '',  // The absolute path of the file from which to read data.
+        type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
+        name: '',   // Optional: Custom filename for attachment
+      }
     }, (error, event) => {
         if(error) {
           AlertIOS.alert('Error', 'Could not send mail. Please send a mail to support@example.com');
