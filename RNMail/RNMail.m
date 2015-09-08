@@ -47,6 +47,40 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             [mail setToRecipients:recipients];
         }
         
+        if (options[@"attachment"] && options[@"attachment"][@"path"] && options[@"attachment"][@"type"]){
+            NSString *attachmentPath = [RCTConvert NSString:options[@"attachment"][@"path"]];
+            NSString *attachmentType = [RCTConvert NSString:options[@"attachment"][@"type"]];
+            NSString *attachmentName = [RCTConvert NSString:options[@"attachment"][@"name"]];
+            
+            // Set default filename if not specificed
+            if (!attachmentName) {
+                attachmentName = [[attachmentPath lastPathComponent] stringByDeletingPathExtension];
+            }
+            
+            // Get the resource path and read the file using NSData
+            NSData *fileData = [NSData dataWithContentsOfFile:attachmentPath];
+            
+            // Determine the MIME type
+            NSString *mimeType;
+            
+            if ([attachmentType isEqualToString:@"jpg"]) {
+                mimeType = @"image/jpeg";
+            } else if ([attachmentType isEqualToString:@"png"]) {
+                mimeType = @"image/png";
+            } else if ([attachmentType isEqualToString:@"doc"]) {
+                mimeType = @"application/msword";
+            } else if ([attachmentType isEqualToString:@"ppt"]) {
+                mimeType = @"application/vnd.ms-powerpoint";
+            } else if ([attachmentType isEqualToString:@"html"]) {
+                mimeType = @"text/html";
+            } else if ([attachmentType isEqualToString:@"pdf"]) {
+                mimeType = @"application/pdf";
+            }
+            
+            // Add attachment
+            [mail addAttachmentData:fileData mimeType:mimeType fileName:attachmentName];
+        }
+        
         UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
         [root presentViewController:mail animated:YES completion:nil];
     } else {
