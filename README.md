@@ -1,6 +1,6 @@
 # react-native-mail
 
-A React Native wrapper for Apple's ``MFMailComposeViewController``.
+A React Native wrapper for Apple's ``MFMailComposeViewController`` from iOS and Mail Intent on android
 Supports emails with attachments.
 
 ### Add it to your project
@@ -47,6 +47,9 @@ var MailExampleApp = React.createClass({
   }
 });
 ```
+
+### Note
+On android callback will only have error(if any) as the argument. event is not available on android.
 
 ## Here is how it looks:
 ![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.jpg)
