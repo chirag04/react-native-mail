@@ -3,7 +3,7 @@
 A React Native wrapper for Apple's ``MFMailComposeViewController`` from iOS and Mail Intent on android
 Supports emails with attachments.
 
-### Add it to your project
+### Add it to your iOS project
 
 1. Run `npm install react-native-mail --save`
 2. Open your project in XCode, right click on `Libraries` and click `Add
