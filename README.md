@@ -16,7 +16,7 @@ npm i --save react-native-mail
 ```gradle
 ...
 include ':RNMail', ':app'
-project(':RNMail').projectDir = new File(settingsDir, '../node_modules/react-native-mail/android')
+project(':RNMail').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mail/android')
 ```
 
 * In `android/app/build.gradle`
