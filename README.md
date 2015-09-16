@@ -6,7 +6,7 @@ Supports emails with attachments.
 ### Installation
 
 ```bash
-npm i --save react-native-android-badge
+npm i --save react-native-mail
 ```
 
 ### Add it to your android project
