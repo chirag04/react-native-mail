@@ -3,6 +3,65 @@
 A React Native wrapper for Apple's ``MFMailComposeViewController`` from iOS and Mail Intent on android
 Supports emails with attachments.
 
+### Installation
+
+```bash
+npm i --save react-native-mail
+```
+
+### Add it to your android project
+
+* In `android/setting.gradle`
+
+```gradle
+...
+include ':RNMail', ':app'
+project(':RNMail').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mail/android')
+```
+
+* In `android/app/build.gradle`
+
+```gradle
+...
+dependencies {
+    ...
+    compile project(':RNMail')
+}
+```
+
+* register module (in MainActivity.java)
+
+```java
+import com.chirag.RNMail.*;  // <--- import
+
+public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
+  ......
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mReactRootView = new ReactRootView(this);
+
+    mReactInstanceManager = ReactInstanceManager.builder()
+      .setApplication(getApplication())
+      .setBundleAssetName("index.android.bundle")
+      .setJSMainModuleName("index.android")
+      .addPackage(new MainReactPackage())
+      .addPackage(new RNMail())              // <------ add here
+      .setUseDeveloperSupport(BuildConfig.DEBUG)
+      .setInitialLifecycleState(LifecycleState.RESUMED)
+      .build();
+
+    mReactRootView.startReactApplication(mReactInstanceManager, "ExampleRN", null);
+
+    setContentView(mReactRootView);
+  }
+
+  ......
+
+}
+```
+
 ### Add it to your iOS project
 
 1. Run `npm install react-native-mail --save`
