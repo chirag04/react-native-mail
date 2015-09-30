@@ -1,7 +1,8 @@
 package com.chirag.RNMail;
 
 import android.content.Intent;
-import android.content.ActivityNotFoundException;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -10,8 +11,10 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.Callback;
 
+import java.util.List;
+
 /**
- * {@link NativeModule} that allows JS to open emails sending apps chooser.
+ * NativeModule that allows JS to open emails sending apps chooser.
  */
 
 public class RNMailModule extends ReactContextBaseJavaModule {
@@ -51,13 +54,21 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       i.putExtra(Intent.EXTRA_EMAIL, recipients);
     }
 
+    PackageManager manager = reactContext.getPackageManager();
+    List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
+
+    if (list == null || list.size() == 0) {
+      callback.invoke("not_available");
+      return;
+    }
+
     Intent chooser = Intent.createChooser(i, "Send Mail");
     chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
     try {
       reactContext.startActivity(chooser);
-    } catch (ActivityNotFoundException ex) {
-      callback.invoke("not_available");
+    } catch (Exception ex) {
+      callback.invoke("error");
     }
   }
 }
