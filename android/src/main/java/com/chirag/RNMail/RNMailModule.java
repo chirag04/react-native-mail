@@ -3,6 +3,7 @@ package com.chirag.RNMail;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -52,6 +53,12 @@ public class RNMailModule extends ReactContextBaseJavaModule {
         recipients[keyIndex] = r.getString(keyIndex);
       }
       i.putExtra(Intent.EXTRA_EMAIL, recipients);
+    }
+
+    if (options.hasKey("attachment") && !options.isNull("attachment")) {
+      ReadableArray r = options.getArray("attachment");
+        Uri uri = Uri.parse(r.getString(0));
+      i.putExtra(Intent.EXTRA_STREAM, uri);
     }
 
     PackageManager manager = reactContext.getPackageManager();
