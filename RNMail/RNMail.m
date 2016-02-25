@@ -47,7 +47,10 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             [mail setToRecipients:recipients];
         }
         
-        if (options[@"attachment"] && options[@"attachment"][@"path"] && options[@"attachment"][@"type"]){
+            NSLog(@"attachment:%@", options[@"attachment"]);
+        
+        if ((![options[@"attachment"] isEqual: @""]) && options[@"attachment"][@"path"] && options[@"attachment"][@"type"]){
+
             NSString *attachmentPath = [RCTConvert NSString:options[@"attachment"][@"path"]];
             NSString *attachmentType = [RCTConvert NSString:options[@"attachment"][@"type"]];
             NSString *attachmentName = [RCTConvert NSString:options[@"attachment"][@"name"]];
@@ -79,6 +82,8 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             
             // Add attachment
             [mail addAttachmentData:fileData mimeType:mimeType fileName:attachmentName];
+        } else {
+            NSLog(@"No Attachment");
         }
         
         UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];

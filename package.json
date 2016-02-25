@@ -7,10 +7,9 @@
     "email": "jain_chirag04@yahoo.com",
     "url": "http://chiragjain.tumblr.com"
   },
-  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:chirag04/react-native-mail.git"
+    "url": "git+ssh://git@github.com/chirag04/react-native-mail.git"
   },
   "keywords": [
     "react",
@@ -20,5 +19,32 @@
     "android",
     "email",
     "MFMailComposeViewController"
-  ]
+  ],
+  "gitHead": "a21523d699e184343166ebad0deeda092365f75a",
+  "bugs": {
+    "url": "https://github.com/chirag04/react-native-mail/issues"
+  },
+  "homepage": "https://github.com/chirag04/react-native-mail#readme",
+  "_id": "react-native-mail@0.2.4",
+  "scripts": {},
+  "_shasum": "10a0ba57655e136744e9cd44f5e5e96ca720a617",
+  "_from": "react-native-mail@>=0.2.4 <0.3.0",
+  "_npmVersion": "2.14.2",
+  "_nodeVersion": "4.0.0",
+  "_npmUser": {
+    "name": "chirag04",
+    "email": "jain_chirag04@yahoo.com"
+  },
+  "maintainers": [
+    {
+      "name": "chirag04",
+      "email": "jain_chirag04@yahoo.com"
+    }
+  ],
+  "dist": {
+    "shasum": "10a0ba57655e136744e9cd44f5e5e96ca720a617",
+    "tarball": "http://registry.npmjs.org/react-native-mail/-/react-native-mail-0.2.4.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/react-native-mail/-/react-native-mail-0.2.4.tgz"
 }
