@@ -36,8 +36,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
   public void mail(ReadableMap options, Callback callback) {
     Intent i = new Intent(Intent.ACTION_SENDTO);
     
-    
-    
+    // Append first recipient to limit suggested apps to mail clients only
     i.setData(Uri.parse("mailto: " + options.getArray("recipients").getString(0)));
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
