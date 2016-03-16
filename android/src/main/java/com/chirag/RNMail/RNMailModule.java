@@ -38,7 +38,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     
     
     
-    i.setData(Uri.parse("mailto: " + options.getArray("recipients").getString(0));
+    i.setData(Uri.parse("mailto: " + options.getArray("recipients").getString(0)));
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
       i.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
