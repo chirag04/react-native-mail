@@ -82,6 +82,10 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
         }
         
         UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+
+        while (root.presentedViewController) {
+            root = root.presentedViewController;
+        }
         [root presentViewController:mail animated:YES completion:nil];
     } else {
         callback(@[@"not_available"]);
