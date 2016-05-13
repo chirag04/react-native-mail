@@ -75,6 +75,8 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 mimeType = @"text/html";
             } else if ([attachmentType isEqualToString:@"pdf"]) {
                 mimeType = @"application/pdf";
+            } else {
+               mimeType = attachmentType;
             }
             
             // Add attachment
