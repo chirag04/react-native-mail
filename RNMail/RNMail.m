@@ -31,38 +31,44 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
         MFMailComposeViewController *mail = [[MFMailComposeViewController alloc] init];
         mail.mailComposeDelegate = self;
         _callbacks[RCTKeyForInstance(mail)] = callback;
-        
+
         if (options[@"subject"]){
             NSString *subject = [RCTConvert NSString:options[@"subject"]];
             [mail setSubject:subject];
         }
         
+        bool *isHTML = NO;
+        
+        if (options[@"isHTML"]){
+            isHTML = YES;
+        }
+
         if (options[@"body"]){
             NSString *body = [RCTConvert NSString:options[@"body"]];
-            [mail setMessageBody:body isHTML:NO];
+            [mail setMessageBody:body isHTML:isHTML];
         }
-        
+
         if (options[@"recipients"]){
             NSArray *recipients = [RCTConvert NSArray:options[@"recipients"]];
             [mail setToRecipients:recipients];
         }
-        
+
         if (options[@"attachment"] && options[@"attachment"][@"path"] && options[@"attachment"][@"type"]){
             NSString *attachmentPath = [RCTConvert NSString:options[@"attachment"][@"path"]];
             NSString *attachmentType = [RCTConvert NSString:options[@"attachment"][@"type"]];
             NSString *attachmentName = [RCTConvert NSString:options[@"attachment"][@"name"]];
-            
+
             // Set default filename if not specificed
             if (!attachmentName) {
                 attachmentName = [[attachmentPath lastPathComponent] stringByDeletingPathExtension];
             }
-            
+
             // Get the resource path and read the file using NSData
             NSData *fileData = [NSData dataWithContentsOfFile:attachmentPath];
-            
+
             // Determine the MIME type
             NSString *mimeType;
-            
+
             if ([attachmentType isEqualToString:@"jpg"]) {
                 mimeType = @"image/jpeg";
             } else if ([attachmentType isEqualToString:@"png"]) {
@@ -75,15 +81,17 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 mimeType = @"text/html";
             } else if ([attachmentType isEqualToString:@"pdf"]) {
                 mimeType = @"application/pdf";
-            } else {
-               mimeType = attachmentType;
             }
-            
+
             // Add attachment
             [mail addAttachmentData:fileData mimeType:mimeType fileName:attachmentName];
         }
-        
+
         UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+
+        while (root.presentedViewController) {
+            root = root.presentedViewController;
+        }
         [root presentViewController:mail animated:YES completion:nil];
     } else {
         callback(@[@"not_available"]);
@@ -119,6 +127,9 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
         RCTLogWarn(@"No callback registered for mail: %@", controller.title);
     }
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    while (ctrl.presentedViewController && ctrl != controller) {
+        ctrl = ctrl.presentedViewController;
+    }
     [ctrl dismissViewControllerAnimated:YES completion:nil];
 }
 

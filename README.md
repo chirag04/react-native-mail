@@ -82,6 +82,7 @@ var MailExampleApp = React.createClass({
       subject: 'need help',
       recipients: ['support@example.com'],
       body: '',
+      isHTML: true, // iOS only, exclude if false
       attachment: {
         path: '',  // The absolute path of the file from which to read data.
         type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
