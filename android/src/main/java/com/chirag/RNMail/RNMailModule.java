@@ -34,8 +34,8 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void mail(ReadableMap options, Callback callback) {
-    Intent i = new Intent(Intent.ACTION_SEND);
-    i.setType("message/rfc822");
+    Intent i = new Intent(Intent.ACTION_SENDTO);
+    i.setData(Uri.parse("mailto:"));
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
       i.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
