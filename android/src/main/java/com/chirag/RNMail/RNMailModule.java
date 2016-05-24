@@ -5,12 +5,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.ReadableMap;
 
 import java.util.List;
 
@@ -53,6 +53,12 @@ public class RNMailModule extends ReactContextBaseJavaModule {
         recipients[keyIndex] = r.getString(keyIndex);
       }
       i.putExtra(Intent.EXTRA_EMAIL, recipients);
+    }
+
+    if (options.hasKey("attachment") && !options.isNull("attachment")) {
+        ReadableMap r = options.getMap("attachment");
+        Uri uri = Uri.parse(r.getString("path"));
+        i.putExtra(Intent.EXTRA_STREAM, uri);
     }
 
     PackageManager manager = reactContext.getPackageManager();
