@@ -1,16 +1,81 @@
 {
-  "name": "react-native-mail",
-  "version": "1.1.0",
-  "description": "A wrapper on top of MFMailComposeViewController from iOS and Mail Intent on android",
-  "author": {
-    "name": "Chirag Jain",
+  "_args": [
+    [
+      {
+        "hosted": {
+          "directUrl": "https://raw.githubusercontent.com/avishayil/react-native-mail/master/package.json",
+          "gitUrl": "git://github.com/avishayil/react-native-mail.git",
+          "httpsUrl": "git+https://github.com/avishayil/react-native-mail.git",
+          "shortcut": "github:avishayil/react-native-mail",
+          "ssh": "git@github.com:avishayil/react-native-mail.git",
+          "sshUrl": "git+ssh://git@github.com/avishayil/react-native-mail.git",
+          "type": "github"
+        },
+        "name": null,
+        "raw": "https://github.com/avishayil/react-native-mail",
+        "rawSpec": "https://github.com/avishayil/react-native-mail",
+        "scope": null,
+        "spec": "git+https://github.com/avishayil/react-native-mail.git",
+        "type": "hosted"
+      },
+      "/Users/Avishay/geektime-app"
+    ]
+  ],
+  "_from": "git+https://github.com/avishayil/react-native-mail.git",
+  "_id": "react-native-mail@1.1.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/react-native-mail",
+  "_nodeVersion": "4.0.0",
+  "_npmUser": {
     "email": "jain_chirag04@yahoo.com",
+    "name": "chirag04"
+  },
+  "_npmVersion": "2.14.2",
+  "_phantomChildren": {},
+  "_requested": {
+    "hosted": {
+      "directUrl": "https://raw.githubusercontent.com/avishayil/react-native-mail/master/package.json",
+      "gitUrl": "git://github.com/avishayil/react-native-mail.git",
+      "httpsUrl": "git+https://github.com/avishayil/react-native-mail.git",
+      "shortcut": "github:avishayil/react-native-mail",
+      "ssh": "git@github.com:avishayil/react-native-mail.git",
+      "sshUrl": "git+ssh://git@github.com/avishayil/react-native-mail.git",
+      "type": "github"
+    },
+    "name": null,
+    "raw": "https://github.com/avishayil/react-native-mail",
+    "rawSpec": "https://github.com/avishayil/react-native-mail",
+    "scope": null,
+    "spec": "git+https://github.com/avishayil/react-native-mail.git",
+    "type": "hosted"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+https://github.com/avishayil/react-native-mail.git#bb4d28f9d88180222511821bef99823b078d0911",
+  "_shasum": "ceef8c056d40563f79d826b60d794a9ea7d2ac94",
+  "_shrinkwrap": null,
+  "_spec": "https://github.com/avishayil/react-native-mail",
+  "_where": "/Users/Avishay/geektime-app",
+  "author": {
+    "email": "jain_chirag04@yahoo.com",
+    "name": "Chirag Jain",
     "url": "http://chiragjain.tumblr.com"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/chirag04/react-native-mail.git"
+  "bugs": {
+    "url": "https://github.com/chirag04/react-native-mail/issues"
   },
+  "dependencies": {},
+  "description": "A wrapper on top of MFMailComposeViewController from iOS and Mail Intent on android",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "10a0ba57655e136744e9cd44f5e5e96ca720a617",
+    "tarball": "http://registry.npmjs.org/react-native-mail/-/react-native-mail-0.2.4.tgz"
+  },
+  "gitHead": "a21523d699e184343166ebad0deeda092365f75a",
+  "homepage": "https://github.com/chirag04/react-native-mail#readme",
   "keywords": [
     "react",
     "react-native",
@@ -20,31 +85,20 @@
     "email",
     "MFMailComposeViewController"
   ],
-  "gitHead": "a21523d699e184343166ebad0deeda092365f75a",
-  "bugs": {
-    "url": "https://github.com/chirag04/react-native-mail/issues"
-  },
-  "homepage": "https://github.com/chirag04/react-native-mail#readme",
-  "_id": "react-native-mail@0.2.4",
-  "scripts": {},
-  "_shasum": "10a0ba57655e136744e9cd44f5e5e96ca720a617",
-  "_from": "react-native-mail@>=0.2.4 <0.3.0",
-  "_npmVersion": "2.14.2",
-  "_nodeVersion": "4.0.0",
-  "_npmUser": {
-    "name": "chirag04",
-    "email": "jain_chirag04@yahoo.com"
-  },
   "maintainers": [
     {
-      "name": "chirag04",
-      "email": "jain_chirag04@yahoo.com"
+      "email": "jain_chirag04@yahoo.com",
+      "name": "chirag04"
     }
   ],
-  "dist": {
-    "shasum": "10a0ba57655e136744e9cd44f5e5e96ca720a617",
-    "tarball": "http://registry.npmjs.org/react-native-mail/-/react-native-mail-0.2.4.tgz"
+  "name": "react-native-mail",
+  "optionalDependencies": {},
+  "readme": "# react-native-mail\n\nA React Native wrapper for Apple's ``MFMailComposeViewController`` from iOS and Mail Intent on android\nSupports emails with attachments.\n\n### Installation\n\n```bash\nnpm i --save react-native-mail\n```\n\n### Add it to your android project\n\n* In `android/setting.gradle`\n\n```gradle\n...\ninclude ':RNMail', ':app'\nproject(':RNMail').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mail/android')\n```\n\n* In `android/app/build.gradle`\n\n```gradle\n...\ndependencies {\n    ...\n    compile project(':RNMail')\n}\n```\n\n* register module (in MainActivity.java)\n\n```java\nimport com.chirag.RNMail.*;  // <--- import\n\npublic class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {\n  ......\n\n  @Override\n  protected void onCreate(Bundle savedInstanceState) {\n    super.onCreate(savedInstanceState);\n    mReactRootView = new ReactRootView(this);\n\n    mReactInstanceManager = ReactInstanceManager.builder()\n      .setApplication(getApplication())\n      .setBundleAssetName(\"index.android.bundle\")\n      .setJSMainModuleName(\"index.android\")\n      .addPackage(new MainReactPackage())\n      .addPackage(new RNMail())              // <------ add here\n      .setUseDeveloperSupport(BuildConfig.DEBUG)\n      .setInitialLifecycleState(LifecycleState.RESUMED)\n      .build();\n\n    mReactRootView.startReactApplication(mReactInstanceManager, \"ExampleRN\", null);\n\n    setContentView(mReactRootView);\n  }\n\n  ......\n\n}\n```\n\n### Add it to your iOS project\n\n1. Run `npm install react-native-mail --save`\n2. Open your project in XCode, right click on `Libraries` and click `Add\n   Files to \"Your Project Name\"` [(Screenshot)](http://url.brentvatne.ca/jQp8) then [(Screenshot)](http://url.brentvatne.ca/1gqUD).\n3. Add `libRNMail.a` to `Build Phases -> Link Binary With Libraries`\n   [(Screenshot)](http://url.brentvatne.ca/17Xfe).\n4. Whenever you want to use it within React code now you can: `var Mailer = require('NativeModules').RNMail;`\n\n\n## Example\n```javascript\nvar Mailer = require('NativeModules').RNMail;\n\nvar MailExampleApp = React.createClass({\n  handleHelp: function() {\n    Mailer.mail({\n      subject: 'need help',\n      recipients: ['support@example.com'],\n      body: '',\n      isHTML: true, // iOS only, exclude if false\n      attachment: {\n        path: '',  // The absolute path of the file from which to read data.\n        type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf\n        name: '',   // Optional: Custom filename for attachment\n      }\n    }, (error, event) => {\n        if(error) {\n          AlertIOS.alert('Error', 'Could not send mail. Please send a mail to support@example.com');\n        }\n    });\n  },  \n  render: function() {\n    return (\n      <TouchableHighlight\n            onPress={row.handleHelp}\n            underlayColor=\"#f7f7f7\">\n\t      <View style={styles.container}>\n\t        <Image source={require('image!announcement')} style={styles.image} />\n\t      </View>\n\t   </TouchableHighlight>\n    );\n  }\n});\n```\n\n### Note\nOn android callback will only have error(if any) as the argument. event is not available on android.\n\n## Here is how it looks:\n![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.jpg)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/chirag04/react-native-mail.git"
   },
-  "directories": {},
-  "_resolved": "https://registry.npmjs.org/react-native-mail/-/react-native-mail-0.2.4.tgz"
+  "scripts": {},
+  "version": "1.1.0"
 }
