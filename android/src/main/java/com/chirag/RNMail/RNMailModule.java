@@ -63,13 +63,18 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       return;
     }
 
-    Intent chooser = Intent.createChooser(i, "Send Mail");
-    chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    if (list.size() == 1) {
+      i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      reactContext.startActivity(i);
+    } else {
+      Intent chooser = Intent.createChooser(i, "Send Mail");
+      chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-    try {
-      reactContext.startActivity(chooser);
-    } catch (Exception ex) {
-      callback.invoke("error");
+      try {
+        reactContext.startActivity(chooser);
+      } catch (Exception ex) {
+        callback.invoke("error");
+      }
     }
   }
 }
