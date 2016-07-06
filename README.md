@@ -81,6 +81,8 @@ var MailExampleApp = React.createClass({
     Mailer.mail({
       subject: 'need help',
       recipients: ['support@example.com'],
+      ccRecipients: ['supportCC@example.com'],
+      bccRecipients: ['supportBCC@example.com'],
       body: '',
       isHTML: true, // iOS only, exclude if false
       attachment: {
