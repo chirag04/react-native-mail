@@ -53,6 +53,15 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             [mail setToRecipients:recipients];
         }
 
+        if (options[@"ccRecipients"]){
+            NSArray *ccRecipients = [RCTConvert NSArray:options[@"ccRecipients"]];
+            [mail setCcRecipients:ccRecipients];
+        }
+        if (options[@"bccRecipients"]){
+            NSArray *bccRecipients = [RCTConvert NSArray:options[@"bccRecipients"]];
+            [mail setBccRecipients:bccRecipients];
+        }
+
         if (options[@"attachment"] && options[@"attachment"][@"path"] && options[@"attachment"][@"type"]){
             NSString *attachmentPath = [RCTConvert NSString:options[@"attachment"][@"path"]];
             NSString *attachmentType = [RCTConvert NSString:options[@"attachment"][@"type"]];
