@@ -13,6 +13,7 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.Callback;
 
 import java.util.List;
+import java.io.File;
 
 /**
  * NativeModule that allows JS to open emails sending apps chooser.
@@ -41,13 +42,13 @@ public class RNMailModule extends ReactContextBaseJavaModule {
    */
   private String[] readableArrayToStringArray(ReadableArray r) {
     int length = r.size();
-    String[] recipients = new String[length];
+    String[] arr = new String[length];
 
     for (int keyIndex = 0; keyIndex < length; keyIndex++) {
-      recipients[keyIndex] = r.getString(keyIndex);
+      arr[keyIndex] = r.getString(keyIndex);
     }
 
-    return recipients;
+    return arr;
   }
 
   @ReactMethod
@@ -76,6 +77,16 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     if (options.hasKey("bccRecipients") && !options.isNull("bccRecipients")) {
       ReadableArray bccRecipients = options.getArray("bccRecipients");
       i.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
+    }
+
+    if (options.hasKey("attachment") && !options.isNull("attachment")) {
+      ReadableMap attachment = options.getMap("attachment");
+      if (attachment.hasKey("path") && !attachment.isNull("path")) {
+        String path = attachment.getString("path");
+        File file = new File(path);
+        Uri p = Uri.fromFile(file);
+        i.putExtra(Intent.EXTRA_STREAM, p);
+      }
     }
 
     PackageManager manager = reactContext.getPackageManager();
