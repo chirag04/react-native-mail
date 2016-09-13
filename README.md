@@ -29,7 +29,8 @@ dependencies {
 }
 ```
 
-* register module (in MainActivity.java)
+* register module (in MainActivity.java) if MainActivity extends Activity
+
 
 ```java
 import com.chirag.RNMail.*;  // <--- import
@@ -61,6 +62,28 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
 }
 ```
+* register module if MainActivity extends ReactActivity
+
+* In `MainApplication.java`
+
+```java
+import com.chirag.RNMail.*; // <--- import
+
+public class MainApplication extends Application implements ReactApplication {
+    ....
+  
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+          new MainReactPackage(),
+          new RNMail()      // <------ add here
+      );
+    }
+  };
+
+```
+
+
 
 ### Add it to your iOS project
 
