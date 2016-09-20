@@ -53,6 +53,16 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             [mail setToRecipients:recipients];
         }
 
+        if (options[@"ccRecipients"]){
+            NSArray *ccRecipients = [RCTConvert NSArray:options[@"ccRecipients"]];
+            [mail setCcRecipients:ccRecipients];
+        }
+        
+        if (options[@"bccRecipients"]){
+            NSArray *bccRecipients = [RCTConvert NSArray:options[@"bccRecipients"]];
+            [mail setBccRecipients:bccRecipients];
+        }
+
         if (options[@"attachment"] && options[@"attachment"][@"path"] && options[@"attachment"][@"type"]){
             NSString *attachmentPath = [RCTConvert NSString:options[@"attachment"][@"path"]];
             NSString *attachmentType = [RCTConvert NSString:options[@"attachment"][@"type"]];
@@ -68,7 +78,11 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
 
             // Determine the MIME type
             NSString *mimeType;
-
+            
+            /*
+             * Add additional mime types and PR if necessary. Find the list
+             * of supported formats at http://www.iana.org/assignments/media-types/media-types.xhtml
+             */
             if ([attachmentType isEqualToString:@"jpg"]) {
                 mimeType = @"image/jpeg";
             } else if ([attachmentType isEqualToString:@"png"]) {
@@ -81,6 +95,10 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 mimeType = @"text/html";
             } else if ([attachmentType isEqualToString:@"pdf"]) {
                 mimeType = @"application/pdf";
+            } else if ([attachmentType isEqualToString:@"vcard"]) {
+                mimeType = @"text/vcard";
+            } else if ([attachmentType isEqualToString:@"json"]) {
+                mimeType = @"application/json";
             }
 
             // Add attachment
