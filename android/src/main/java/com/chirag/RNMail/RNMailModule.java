@@ -13,6 +13,7 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.Callback;
 
 import java.util.List;
+import java.io.File;
 
 /**
  * NativeModule that allows JS to open emails sending apps chooser.
@@ -32,14 +33,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     return "RNMail";
   }
 
-  /**
-   * Converts a ReadableArray to a String array
-   *
-   * @param r the ReadableArray instance to convert
-   *
-   * @return array of strings
-   */
-  private String[] readableArrayToStringArray(ReadableArray r) {
+  private String[] recipientsReadableArrayToStringArray(ReadableArray r) {
     int length = r.size();
     String[] recipients = new String[length];
 
@@ -65,17 +59,27 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
     if (options.hasKey("recipients") && !options.isNull("recipients")) {
       ReadableArray recipients = options.getArray("recipients");
-      i.putExtra(Intent.EXTRA_EMAIL, readableArrayToStringArray(recipients));
+      i.putExtra(Intent.EXTRA_EMAIL, recipientsReadableArrayToStringArray(recipients));
     }
 
     if (options.hasKey("ccRecipients") && !options.isNull("ccRecipients")) {
       ReadableArray ccRecipients = options.getArray("ccRecipients");
-      i.putExtra(Intent.EXTRA_CC, readableArrayToStringArray(ccRecipients));
+      i.putExtra(Intent.EXTRA_CC, recipientsReadableArrayToStringArray(ccRecipients));
     }
 
     if (options.hasKey("bccRecipients") && !options.isNull("bccRecipients")) {
       ReadableArray bccRecipients = options.getArray("bccRecipients");
-      i.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
+      i.putExtra(Intent.EXTRA_BCC, recipientsReadableArrayToStringArray(bccRecipients));
+    }
+
+    if (options.hasKey("attachment") && !options.isNull("attachment")) {
+      ReadableMap attachment = options.getMap("attachment");
+      if (attachment.hasKey("path") && !attachment.isNull("path")) {
+        String path = attachment.getString("path");
+        File file = new File(path);
+        Uri p = Uri.fromFile(file);
+        i.putExtra(Intent.EXTRA_STREAM, p);
+      }
     }
 
     PackageManager manager = reactContext.getPackageManager();
