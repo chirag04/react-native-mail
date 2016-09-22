@@ -18,7 +18,6 @@ import java.io.File;
 /**
  * NativeModule that allows JS to open emails sending apps chooser.
  */
-
 public class RNMailModule extends ReactContextBaseJavaModule {
 
   ReactApplicationContext reactContext;
@@ -33,15 +32,22 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     return "RNMail";
   }
 
-  private String[] recipientsReadableArrayToStringArray(ReadableArray r) {
+  /**
+    * Converts a ReadableArray to a String array
+    *
+    * @param r the ReadableArray instance to convert
+    *
+    * @return array of strings
+  */
+  private String[] readableArrayToStringArray(ReadableArray r) {
     int length = r.size();
-    String[] recipients = new String[length];
+    String[] strArray = new String[length];
 
     for (int keyIndex = 0; keyIndex < length; keyIndex++) {
-      recipients[keyIndex] = r.getString(keyIndex);
+      strArray[keyIndex] = r.getString(keyIndex);
     }
 
-    return recipients;
+    return strArray;
   }
 
   @ReactMethod
@@ -59,17 +65,17 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
     if (options.hasKey("recipients") && !options.isNull("recipients")) {
       ReadableArray recipients = options.getArray("recipients");
-      i.putExtra(Intent.EXTRA_EMAIL, recipientsReadableArrayToStringArray(recipients));
+      i.putExtra(Intent.EXTRA_EMAIL, readableArrayToStringArray(recipients));
     }
 
     if (options.hasKey("ccRecipients") && !options.isNull("ccRecipients")) {
       ReadableArray ccRecipients = options.getArray("ccRecipients");
-      i.putExtra(Intent.EXTRA_CC, recipientsReadableArrayToStringArray(ccRecipients));
+      i.putExtra(Intent.EXTRA_CC, readableArrayToStringArray(ccRecipients));
     }
 
     if (options.hasKey("bccRecipients") && !options.isNull("bccRecipients")) {
       ReadableArray bccRecipients = options.getArray("bccRecipients");
-      i.putExtra(Intent.EXTRA_BCC, recipientsReadableArrayToStringArray(bccRecipients));
+      i.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
     }
 
     if (options.hasKey("attachment") && !options.isNull("attachment")) {
