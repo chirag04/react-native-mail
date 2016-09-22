@@ -42,13 +42,13 @@ public class RNMailModule extends ReactContextBaseJavaModule {
    */
   private String[] readableArrayToStringArray(ReadableArray r) {
     int length = r.size();
-    String[] arr = new String[length];
+    String[] stringArray = new String[length];
 
     for (int keyIndex = 0; keyIndex < length; keyIndex++) {
-      arr[keyIndex] = r.getString(keyIndex);
+      stringArray[keyIndex] = r.getString(keyIndex);
     }
 
-    return arr;
+    return stringArray;
   }
 
   @ReactMethod
