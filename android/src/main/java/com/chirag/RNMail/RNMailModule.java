@@ -105,7 +105,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     if (list.size() == 1) {
       i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       try {
-        reactContext.startActivity(i);
+        reactContext.startActivityForResult(i);
       } catch (Exception ex) {
         callback.invoke("error");
       }
@@ -114,7 +114,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
       try {
-        reactContext.startActivity(chooser);
+        reactContext.startActivityForResult(chooser);
       } catch (Exception ex) {
         callback.invoke("error");
       }
