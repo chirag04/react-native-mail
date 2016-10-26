@@ -89,7 +89,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 1. Run `npm install react-native-mail --save`
 2. Open your project in XCode, right click on `Libraries` and click `Add
-   Files to "Your Project Name"` [(Screenshot)](http://url.brentvatne.ca/jQp8) then [(Screenshot)](http://url.brentvatne.ca/1gqUD).
+   Files to "Your Project Name"` [(Screenshot)](http://url.brentvatne.ca/jQp8) then [(Screenshot)](https://github.com/pedramsaleh/react-native-mail/blob/master/add-xcodeproj.png?raw=true).
 3. Add `libRNMail.a` to `Build Phases -> Link Binary With Libraries`
    [(Screenshot)](http://url.brentvatne.ca/17Xfe).
 4. Whenever you want to use it within React code now you can: `var Mailer = require('NativeModules').RNMail;`
