@@ -135,7 +135,8 @@ var MailExampleApp = React.createClass({
 ```
 
 ### Note
-On android callback will only have error(if any) as the argument. event is not available on android.
+- If you use attachment on android, file must be located in external storage directory or world readable (unsafe).
+- On android callback will only have error(if any) as the argument. event is not available on android.
 
 ## Here is how it looks:
 ![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.jpg)
