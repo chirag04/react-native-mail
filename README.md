@@ -112,7 +112,8 @@ var MailExampleApp = React.createClass({
         path: '',  // The absolute path of the file from which to read data.
         type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
         name: '',   // Optional: Custom filename for attachment
-      }
+      },
+      chooserLabel: '' // Android only, the label displayed on chooser
     }, (error, event) => {
         if(error) {
           AlertIOS.alert('Error', 'Could not send mail. Please send a mail to support@example.com');
@@ -134,7 +135,8 @@ var MailExampleApp = React.createClass({
 ```
 
 ### Note
-On android callback will only have error(if any) as the argument. event is not available on android.
+- If you use attachment on android, file must be located in external storage directory or world readable (unsafe).
+- On android callback will only have error(if any) as the argument. event is not available on android.
 
 ## Here is how it looks:
 ![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.jpg)
