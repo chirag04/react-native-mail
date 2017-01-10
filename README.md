@@ -5,11 +5,25 @@ Supports emails with attachments.
 
 ### Installation
 
+For React Native >= 0.40:
+
 ```bash
-npm i --save react-native-mail
+npm install --save react-native-mail@next
 ```
 
-### Add it to your android project
+For React Native < 0.40:
+
+```bash
+npm install --save react-native-mail@2
+```
+
+To automagically link to your project:
+
+```bash
+react-native link react-native-mail
+```
+
+### Add it manually to your Android project
 
 * In `android/setting.gradle`
 
@@ -85,56 +99,117 @@ public class MainApplication extends Application implements ReactApplication {
 
 
 
-### Add it to your iOS project
+### Add it manually to your iOS project
 
-1. Run `npm install react-native-mail --save`
-2. Open your project in XCode, right click on `Libraries` and click `Add
+1. Open your project in XCode, right click on `Libraries` and click `Add
    Files to "Your Project Name"` [(Screenshot)](http://url.brentvatne.ca/jQp8) then [(Screenshot)](https://github.com/pedramsaleh/react-native-mail/blob/master/add-xcodeproj.png?raw=true).
-3. Add `libRNMail.a` to `Build Phases -> Link Binary With Libraries`
+2. Add `libRNMail.a` to `Build Phases -> Link Binary With Libraries`
    [(Screenshot)](http://url.brentvatne.ca/17Xfe).
-4. Whenever you want to use it within React code now you can: `var Mailer = require('NativeModules').RNMail;`
+3. Whenever you want to use it within React code now you can:
+
+```javascript
+import { NativeModules } from 'react-native';
+const { RNMail } = NativeModules;
+
+// or using old-school require():
+var RNMail = require('NativeModules').RNMail;
+```
 
 
 ## Example
-```javascript
-var Mailer = require('NativeModules').RNMail;
 
-var MailExampleApp = React.createClass({
-  handleHelp: function() {
-    Mailer.mail({
-      subject: 'need help',
-      recipients: ['support@example.com'],
-      ccRecipients: ['supportCC@example.com'],
-      bccRecipients: ['supportBCC@example.com'],
-      body: '',
-      isHTML: true, // iOS only, exclude if false
-      attachment: {
-        path: '',  // The absolute path of the file from which to read data.
-        type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
-        name: '',   // Optional: Custom filename for attachment
+```javascript
+/**
+ * Sample React Native App using RNMail
+ * @flow
+ */
+
+import React, { Component } from 'react';
+
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  NativeModules,
+  Alert,
+  Platform
+} from 'react-native';
+
+const { RNMail } = NativeModules;
+
+const _sendMail = () => {
+  RNMail.mail({
+    recipients: ['support@example.com'],
+    ccRecipients: ['supportCC@example.com'],
+    bccRecipients: ['supportBCC@example.com'],
+    //isHTML: true, // iOS only, exclude if false
+    //attachment: {
+    //  path: '', // The absolute path of the file from which to read data.
+    //  type: '', // Mime Type: jpg, png, doc, ppt, html, pdf
+    //  name: '', // Optional: Custom filename for attachment
+    //},
+    subject: 'need help',
+    body: 'Help!'
+  }, (error, event) => {
+    if (error === 'not_available') {
+      const message = Platform.OS === 'ios' ?
+        'There is no email account registered with the system.' :
+        'There is no email app to handle emails.';
+      return Alert.alert('Error', message);
+    }
+
+    if (error) {
+      return Alert.alert('Error', 'Could not send mail. Please send an email manually to support@example.com');
+    }
+
+    // NOTE: Android implementation doesn't send any events!
+    if (Platform.OS === 'ios') {
+      switch (event) {
+        case 'sent': // NOTE: the email was queued for sending
+        case 'saved': // NOTE: the email was saved as a draft
+        case 'cancelled': // NOTE: the email was discarded
+        default:
+          Alert.alert(event || 'Unknown event');
       }
-    }, (error, event) => {
-        if(error) {
-          AlertIOS.alert('Error', 'Could not send mail. Please send a mail to support@example.com');
-        }
-    });
-  },  
-  render: function() {
+    }
+  });
+}
+
+export default class RNMailExample extends Component {
+  render () {
     return (
-      <TouchableHighlight
-            onPress={row.handleHelp}
-            underlayColor="#f7f7f7">
-	      <View style={styles.container}>
-	        <Image source={require('image!announcement')} style={styles.image} />
-	      </View>
-	   </TouchableHighlight>
+      <View style={styles.container}>
+        <TouchableHighlight onPress={_sendMail} underlayColor="#f7f7f7">
+          <Text style={styles.sendMailText}>Send Mail</Text>
+        </TouchableHighlight>
+      </View>
     );
   }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF'
+  },
+  sendMailText: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10
+  }
 });
+
+AppRegistry.registerComponent('RNMailExample', () => RNMailExample);
 ```
 
 ### Note
-On android callback will only have error(if any) as the argument. event is not available on android.
+
+On Android, the `callback` will only be called if an `error` occurs. The `event` argument is unused!
 
 ## Here is how it looks:
-![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.jpg)
+
+<img src="screenshot.png" alt="iOS 10 Screenshot" width="320" height="568" />
