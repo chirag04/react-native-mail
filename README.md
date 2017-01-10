@@ -5,6 +5,8 @@ Supports emails with attachments.
 
 ### Installation
 
+There was a breaking change in RN >=40. So for React Native >= 0.40: use v3.x and higher of this lib. otherwise use v2.x
+
 ```bash
 npm i --save react-native-mail
 ```
@@ -134,7 +136,8 @@ var MailExampleApp = React.createClass({
 ```
 
 ### Note
-On android callback will only have error(if any) as the argument. event is not available on android.
+
+On Android, the `callback` will only be called if an `error` occurs. The `event` argument is unused!
 
 ## Here is how it looks:
-![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.jpg)
+![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.png)
