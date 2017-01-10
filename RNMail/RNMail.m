@@ -1,7 +1,7 @@
 #import <MessageUI/MessageUI.h>
 #import "RNMail.h"
-#import "RCTConvert.h"
-#import "RCTLog.h"
+#import <React/RCTConvert.h>
+#import <React/RCTLog.h>
 
 @implementation RNMail
 {
