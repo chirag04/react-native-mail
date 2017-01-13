@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -50,53 +51,71 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     return strArray;
   }
 
+  private Intent createIntent(@Nullable ReadableMap options) {
+      Intent intent = new Intent(Intent.ACTION_SENDTO);
+      intent.setData(Uri.parse("mailto:"));
+
+      if (options != null) {
+          if (options.hasKey("subject") && !options.isNull("subject")) {
+            intent.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
+          }
+
+          if (options.hasKey("body") && !options.isNull("body")) {
+            intent.putExtra(Intent.EXTRA_TEXT, options.getString("body"));
+          }
+
+          if (options.hasKey("recipients") && !options.isNull("recipients")) {
+            ReadableArray recipients = options.getArray("recipients");
+            intent.putExtra(Intent.EXTRA_EMAIL, readableArrayToStringArray(recipients));
+          }
+
+          if (options.hasKey("ccRecipients") && !options.isNull("ccRecipients")) {
+            ReadableArray ccRecipients = options.getArray("ccRecipients");
+            intent.putExtra(Intent.EXTRA_CC, readableArrayToStringArray(ccRecipients));
+          }
+
+          if (options.hasKey("bccRecipients") && !options.isNull("bccRecipients")) {
+            ReadableArray bccRecipients = options.getArray("bccRecipients");
+            intent.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
+          }
+
+          if (options.hasKey("attachment") && !options.isNull("attachment")) {
+            ReadableMap attachment = options.getMap("attachment");
+            if (attachment.hasKey("path") && !attachment.isNull("path")) {
+              String path = attachment.getString("path");
+              File file = new File(path);
+              Uri p = Uri.fromFile(file);
+              intent.putExtra(Intent.EXTRA_STREAM, p);
+            }
+          }
+      }
+
+      return intent;
+  }
+
+  private int countIntentActivities(Intent intent) {
+      PackageManager manager = reactContext.getPackageManager();
+      List<ResolveInfo> list = manager.queryIntentActivities(intent, 0);
+
+      return list.size();
+  }
+
+  @ReactMethod
+  public void canSend(Callback callback) {
+      Intent intent = createIntent(null);
+      boolean canSendMail = countIntentActivities(intent) > 0;
+
+      callback.invoke(null, canSendMail);
+  }
+
   @ReactMethod
   public void mail(ReadableMap options, Callback callback) {
-    Intent i = new Intent(Intent.ACTION_SENDTO);
-    i.setData(Uri.parse("mailto:"));
+    Intent i = createIntent(options);
+    int numberOfActivities = countIntentActivities(i);
 
-    if (options.hasKey("subject") && !options.isNull("subject")) {
-      i.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
-    }
-
-    if (options.hasKey("body") && !options.isNull("body")) {
-      i.putExtra(Intent.EXTRA_TEXT, options.getString("body"));
-    }
-
-    if (options.hasKey("recipients") && !options.isNull("recipients")) {
-      ReadableArray recipients = options.getArray("recipients");
-      i.putExtra(Intent.EXTRA_EMAIL, readableArrayToStringArray(recipients));
-    }
-
-    if (options.hasKey("ccRecipients") && !options.isNull("ccRecipients")) {
-      ReadableArray ccRecipients = options.getArray("ccRecipients");
-      i.putExtra(Intent.EXTRA_CC, readableArrayToStringArray(ccRecipients));
-    }
-
-    if (options.hasKey("bccRecipients") && !options.isNull("bccRecipients")) {
-      ReadableArray bccRecipients = options.getArray("bccRecipients");
-      i.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
-    }
-
-    if (options.hasKey("attachment") && !options.isNull("attachment")) {
-      ReadableMap attachment = options.getMap("attachment");
-      if (attachment.hasKey("path") && !attachment.isNull("path")) {
-        String path = attachment.getString("path");
-        File file = new File(path);
-        Uri p = Uri.fromFile(file);
-        i.putExtra(Intent.EXTRA_STREAM, p);
-      }
-    }
-
-    PackageManager manager = reactContext.getPackageManager();
-    List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
-
-    if (list == null || list.size() == 0) {
+    if (numberOfActivities == 0) {
       callback.invoke("not_available");
-      return;
-    }
-
-    if (list.size() == 1) {
+    } else if (numberOfActivities == 1) {
       i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       try {
         reactContext.startActivity(i);

@@ -97,7 +97,9 @@ public class MainApplication extends Application implements ReactApplication {
 4. Whenever you want to use it within React code now you can: `var Mailer = require('NativeModules').RNMail;`
 
 
-## Example
+## Example 1
+Show a mail dialog.
+
 ```javascript
 var Mailer = require('NativeModules').RNMail;
 
@@ -138,6 +140,28 @@ var MailExampleApp = React.createClass({
 ### Note
 
 On Android, the `callback` will only be called if an `error` occurs. The `event` argument is unused!
+
+## Example 2
+Check if the user has an email account configured.
+
+```js
+var Mailer = require('NativeModules').RNMail;
+
+Mailer.canSend((error, canSend) => {
+    if (error) {
+        //
+    }
+    else {
+        if (canSend) {
+            // User can send a mail
+        }
+        else {
+            // User cannot send a mail
+        }
+    }
+});
+}
+```
 
 ## Here is how it looks:
 ![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.png)
