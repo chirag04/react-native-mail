@@ -103,6 +103,8 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 mimeType = @"application/json";
             } else if ([attachmentType isEqualToString:@"zip"]) {
                 mimeType = @"application/zip";
+            } else if ([attachmentType isEqualToString:@"text"]) {
+                mimeType = @"text/*";
             }
 
             // Add attachment
