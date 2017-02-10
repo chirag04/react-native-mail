@@ -1,7 +1,7 @@
 #import <MessageUI/MessageUI.h>
 #import "RNMail.h"
-#import "RCTConvert.h"
-#import "RCTLog.h"
+#import <React/RCTConvert.h>
+#import <React/RCTLog.h>
 
 @implementation RNMail
 {
@@ -93,12 +93,18 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 mimeType = @"application/vnd.ms-powerpoint";
             } else if ([attachmentType isEqualToString:@"html"]) {
                 mimeType = @"text/html";
+            } else if ([attachmentType isEqualToString:@"csv"]) {
+                mimeType = @"text/csv";
             } else if ([attachmentType isEqualToString:@"pdf"]) {
                 mimeType = @"application/pdf";
             } else if ([attachmentType isEqualToString:@"vcard"]) {
                 mimeType = @"text/vcard";
             } else if ([attachmentType isEqualToString:@"json"]) {
                 mimeType = @"application/json";
+            } else if ([attachmentType isEqualToString:@"zip"]) {
+                mimeType = @"application/zip";
+            } else if ([attachmentType isEqualToString:@"text"]) {
+                mimeType = @"text/*";
             }
 
             // Add attachment

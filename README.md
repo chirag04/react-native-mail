@@ -5,6 +5,8 @@ Supports emails with attachments.
 
 ### Installation
 
+There was a breaking change in RN >=40. So for React Native >= 0.40: use v3.x and higher of this lib. otherwise use v2.x
+
 ```bash
 npm i --save react-native-mail
 ```
@@ -89,7 +91,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 1. Run `npm install react-native-mail --save`
 2. Open your project in XCode, right click on `Libraries` and click `Add
-   Files to "Your Project Name"` [(Screenshot)](http://url.brentvatne.ca/jQp8) then [(Screenshot)](http://url.brentvatne.ca/1gqUD).
+   Files to "Your Project Name"` [(Screenshot)](http://url.brentvatne.ca/jQp8) then navigate to node_modules/react-native-mail and select RNMail.xcodeproj [(Screenshot)](https://github.com/pedramsaleh/react-native-mail/blob/master/add-xcodeproj.png?raw=true).
 3. Add `libRNMail.a` to `Build Phases -> Link Binary With Libraries`
    [(Screenshot)](http://url.brentvatne.ca/17Xfe).
 4. Whenever you want to use it within React code now you can: `var Mailer = require('NativeModules').RNMail;`
@@ -134,7 +136,8 @@ var MailExampleApp = React.createClass({
 ```
 
 ### Note
-On android callback will only have error(if any) as the argument. event is not available on android.
+
+On Android, the `callback` will only be called if an `error` occurs. The `event` argument is unused!
 
 ## Here is how it looks:
-![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.jpg)
+![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.png)
