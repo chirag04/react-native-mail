@@ -31,7 +31,7 @@ dependencies {
 }
 ```
 
-* register module (in MainActivity.java) if MainActivity extends Activity
+* if MainActivity extends Activity: register module in MainActivity.java
 
 
 ```java
@@ -64,9 +64,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
 }
 ```
-* register module if MainActivity extends ReactActivity
-
-* In `MainApplication.java`
+* else if MainActivity extends ReactActivity: register module in `MainApplication.java`
 
 ```java
 import com.chirag.RNMail.*; // <--- import
