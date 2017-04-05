@@ -23,6 +23,11 @@
 
 RCT_EXPORT_MODULE()
 
+RCT_EXPORT_METHOD(canSend:(RCTResponseSenderBlock)callback)
+{
+    callback(@[[NSNull null], @([MFMailComposeViewController canSendMail])]);
+}
+
 RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                   callback: (RCTResponseSenderBlock)callback)
 {
