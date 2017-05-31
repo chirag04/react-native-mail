@@ -1,14 +1,19 @@
 # react-native-mail
 
-A React Native wrapper for Apple's ``MFMailComposeViewController`` from iOS and Mail Intent on android
+A React Native wrapper for Apple's ``MFMailComposeViewController`` from iOS and
+Mail Intent on Android
+
 Supports emails with attachments.
 
 ### Installation
 
+There was a breaking change in RN >=40. So for React Native >= 0.40: use v3.x
+and higher of this lib. otherwise use v2.x
+
 For React Native >= 0.40:
 
 ```bash
-npm install --save react-native-mail@next
+npm install --save react-native-mail
 ```
 
 For React Native < 0.40:
@@ -43,7 +48,7 @@ dependencies {
 }
 ```
 
-* register module (in MainActivity.java) if MainActivity extends Activity
+* if MainActivity extends Activity - register module in MainActivity.java
 
 
 ```java
@@ -63,6 +68,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
       .setJSMainModuleName("index.android")
       .addPackage(new MainReactPackage())
       .addPackage(new RNMail())              // <------ add here
+      ......
       .setUseDeveloperSupport(BuildConfig.DEBUG)
       .setInitialLifecycleState(LifecycleState.RESUMED)
       .build();
@@ -91,6 +97,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new RNMail()      // <------ add here
+          ....
       );
     }
   };
@@ -102,16 +109,19 @@ public class MainApplication extends Application implements ReactApplication {
 ### Add it manually to your iOS project
 
 1. Open your project in XCode, right click on `Libraries` and click `Add
-   Files to "Your Project Name"` [(Screenshot)](http://url.brentvatne.ca/jQp8) then [(Screenshot)](https://github.com/pedramsaleh/react-native-mail/blob/master/add-xcodeproj.png?raw=true).
+   Files to "Your Project Name"`
+   <a href="screenshots/add-xcodeproj-1.png">Screenshot</a>
+   then navigate to `node_modules/react-native-mail` and select RNMail.xcodeproj
+   <a href="screenshots/add-xcodeproj-2.png">Screeenshot</a>.
 2. Add `libRNMail.a` to `Build Phases -> Link Binary With Libraries`
-   [(Screenshot)](http://url.brentvatne.ca/17Xfe).
+   <a href="screenshots/add-xcodeproj-3.png">Screenshot</a>.
 3. Whenever you want to use it within React code now you can:
 
 ```javascript
 import { NativeModules } from 'react-native';
 const { RNMail } = NativeModules;
 
-// or using old-school require():
+// or using require():
 var RNMail = require('NativeModules').RNMail;
 ```
 
@@ -208,8 +218,9 @@ AppRegistry.registerComponent('RNMailExample', () => RNMailExample);
 
 ### Note
 
-On Android, the `callback` will only be called if an `error` occurs. The `event` argument is unused!
+On Android, the `callback` will only be called if an `error` occurs.
+The `event` argument is unused!
 
 ## Here is how it looks:
 
-<img src="screenshot.png" alt="iOS 10 Screenshot" width="320" height="568" />
+<img src="screenshots/ios.png" alt="iOS 10 Screenshot" width="320" height="568" />
