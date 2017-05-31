@@ -36,8 +36,8 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             NSString *subject = [RCTConvert NSString:options[@"subject"]];
             [mail setSubject:subject];
         }
-        
-        bool *isHTML = NO;
+
+        BOOL isHTML = NO;
         
         if (options[@"isHTML"]){
             isHTML = YES;
