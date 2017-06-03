@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.text.Html;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -60,7 +61,12 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     }
 
     if (options.hasKey("body") && !options.isNull("body")) {
-      i.putExtra(Intent.EXTRA_TEXT, options.getString("body"));
+      String body = options.getString("body");
+      if (options.hasKey("isHTML") && options.getBoolean("isHTML")) {
+        i.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(body));
+      } else {
+        i.putExtra(Intent.EXTRA_TEXT, body);
+      }
     }
 
     if (options.hasKey("recipients") && !options.isNull("recipients")) {
