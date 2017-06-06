@@ -71,7 +71,7 @@ import com.chirag.RNMail.*; // <--- import
 
 public class MainApplication extends Application implements ReactApplication {
     ....
-  
+
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
@@ -107,7 +107,7 @@ var MailExampleApp = React.createClass({
       ccRecipients: ['supportCC@example.com'],
       bccRecipients: ['supportBCC@example.com'],
       body: '',
-      isHTML: true, // iOS only, exclude if false
+      isHTML: true,
       attachment: {
         path: '',  // The absolute path of the file from which to read data.
         type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
