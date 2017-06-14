@@ -97,7 +97,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 ## Example
 ```javascript
-var Mailer = require('NativeModules').RNMail;
+var Mailer = require('react-native-mail');
 
 var MailExampleApp = React.createClass({
   handleHelp: function() {
