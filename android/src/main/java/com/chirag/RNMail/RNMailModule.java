@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.Html;
+import android.webkit.URLUtil;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -88,8 +89,16 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       ReadableMap attachment = options.getMap("attachment");
       if (attachment.hasKey("path") && !attachment.isNull("path")) {
         String path = attachment.getString("path");
-        File file = new File(path);
-        Uri p = Uri.fromFile(file);
+        Uri p;
+        // Check for valid URI
+        if (URLUtil.isValidUrl(path)) {
+          p = Uri.parse(path);
+        }
+        // Else this is an absolute file path
+        else {
+          File file = new File(path);
+          p = Uri.fromFile(file);
+        }
         i.putExtra(Intent.EXTRA_STREAM, p);
       }
     }
