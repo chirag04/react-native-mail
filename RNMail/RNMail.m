@@ -40,7 +40,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
         bool *isHTML = NO;
         
         if (options[@"isHTML"]){
-            isHTML = YES;
+            isHTML = [options[@"isHTML"] boolValue];
         }
 
         if (options[@"body"]){
