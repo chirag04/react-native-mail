@@ -132,8 +132,8 @@ export default class App extends Component {
       }
     }, (error, event) => {
       Alert.alert(
-        'Error',
-        'Email could not be sent',
+        error,
+        event,
         [
           {text: 'Ok', onPress: () => console.log('OK: Email Error Response')},
           {text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
