@@ -115,10 +115,9 @@ import React, { Component } from 'react';
 import { View, Button } from 'react-native';
 import Mailer from 'react-native-mail';
 
-export default class App extends Component<{}> {
+export default class App extends Component {
 
   handleEmail = () => {
-    console.log(Mailer);
     Mailer.mail({
       subject: 'need help',
       recipients: ['support@example.com'],
