@@ -3,15 +3,23 @@
 A React Native wrapper for Apple's ``MFMailComposeViewController`` from iOS and Mail Intent on android
 Supports emails with attachments.
 
-### Installation
+## Installation
 
 There was a breaking change in RN >=40. So for React Native >= 0.40: use v3.x and higher of this lib. otherwise use v2.x
 
 ```bash
-npm i --save react-native-mail
+npm i --save react-native-mail # npm syntax
+yarn add react-native-mail # yarn syntax
 ```
 
-### Add it to your android project
+### Automatic Installation
+You can automatically link the native components or follow the manual instructions below if you prefer.
+
+ ```bash
+ react-native link
+ ```
+
+### Manual Installation: Android
 
 * In `android/setting.gradle`
 
@@ -85,7 +93,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 
 
-### Add it to your iOS project
+### Manual Installation: iOS
 
 1. Run `npm install react-native-mail --save`
 2. Open your project in XCode, right click on `Libraries` and click `Add
@@ -97,16 +105,26 @@ public class MainApplication extends Application implements ReactApplication {
 
 ## Example
 ```javascript
-var Mailer = require('react-native-mail');
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
 
-var MailExampleApp = React.createClass({
-  handleHelp: function() {
+import React, { Component } from 'react';
+import { View, Button } from 'react-native';
+import Mailer from 'react-native-mail';
+
+export default class App extends Component<{}> {
+
+  handleEmail = () => {
+    console.log(Mailer);
     Mailer.mail({
       subject: 'need help',
       recipients: ['support@example.com'],
       ccRecipients: ['supportCC@example.com'],
       bccRecipients: ['supportBCC@example.com'],
-      body: '',
+      body: '<b>A Bold Body</b>',
       isHTML: true,
       attachment: {
         path: '',  // The absolute path of the file from which to read data.
@@ -114,23 +132,34 @@ var MailExampleApp = React.createClass({
         name: '',   // Optional: Custom filename for attachment
       }
     }, (error, event) => {
-        if(error) {
-          AlertIOS.alert('Error', 'Could not send mail. Please send a mail to support@example.com');
-        }
+      console.log(error);
+      Alert.alert(
+        'Error',
+        'Email could not be sent',
+        [
+          {text: 'Ok', onPress: () => console.log('OK: Email Error Response')},
+          {text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
+        ],
+        { cancelable: true }
+      )
     });
-  },  
-  render: function() {
+  }
+
+  render() {
     return (
-      <TouchableHighlight
-            onPress={row.handleHelp}
-            underlayColor="#f7f7f7">
-	      <View style={styles.container}>
-	        <Image source={require('image!announcement')} style={styles.image} />
-	      </View>
-	   </TouchableHighlight>
+      <View style={styles.container}>
+        <Button
+          onPress={this.handleEmail}
+          title="Email Me"
+          color="#841584"
+          accessabilityLabel="Purple Email Me Button"
+        />
+      </View>
     );
   }
-});
+}
+
+
 ```
 
 ### Note
