@@ -112,7 +112,7 @@ public class MainApplication extends Application implements ReactApplication {
  */
 
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
+import { View, Alert, Button } from 'react-native';
 import Mailer from 'react-native-mail';
 
 export default class App extends Component {
@@ -131,7 +131,6 @@ export default class App extends Component {
         name: '',   // Optional: Custom filename for attachment
       }
     }, (error, event) => {
-      console.log(error);
       Alert.alert(
         'Error',
         'Email could not be sent',
