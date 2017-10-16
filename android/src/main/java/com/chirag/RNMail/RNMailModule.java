@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.Html;
+import android.app.Activity;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -12,6 +13,8 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.ActivityEventListener;
+import com.facebook.react.bridge.BaseActivityEventListener;
 
 import java.util.List;
 import java.io.File;
@@ -22,10 +25,24 @@ import java.io.File;
 public class RNMailModule extends ReactContextBaseJavaModule {
 
   ReactApplicationContext reactContext;
+  private static final int MAIL_SEND_REQUEST = 10101;  
+  Callback callback;
+  
+  private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
+    @Override
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
+      if (requestCode == MAIL_SEND_REQUEST) {
+          if(callback != null)
+            callback.invoke("mailclient_closed");
+      }
+    }
+  };
+  
 
   public RNMailModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
+    reactContext.addActivityEventListener(mActivityEventListener);
   }
 
   @Override
@@ -53,8 +70,14 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void mail(ReadableMap options, Callback callback) {
-    Intent i = new Intent(Intent.ACTION_SENDTO);
-    i.setData(Uri.parse("mailto:"));
+    Intent i;
+    if (options.hasKey("attachment") && !options.isNull("attachment")) {
+      i = new Intent(Intent.ACTION_SEND);
+      i.setType("message/rfc822");
+    } else {
+      i = new Intent(Intent.ACTION_SENDTO);
+      i.setData(Uri.parse("mailto:"));
+    }
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
       i.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
@@ -111,10 +134,10 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       }
     } else {
       Intent chooser = Intent.createChooser(i, "Send Mail");
-      chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
       try {
-        reactContext.startActivity(chooser);
+        this.callback = callback;
+        Activity currentActivity = getCurrentActivity();
+        currentActivity.startActivityForResult(chooser, MAIL_SEND_REQUEST);
       } catch (Exception ex) {
         callback.invoke("error");
       }
