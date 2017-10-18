@@ -31,9 +31,12 @@ public class RNMailModule extends ReactContextBaseJavaModule {
   private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
-      if (requestCode == MAIL_SEND_REQUEST) {
-          if(callback != null)
-            callback.invoke("mailclient_closed");
+      if (requestCode == MAIL_SEND_REQUEST && callback != null) {
+        try {
+            callback.invoke(null, "mailclient_closed");
+        } catch (Exception ex) {
+          //Lost the reference. don't do anything
+        }
       }
     }
   };
