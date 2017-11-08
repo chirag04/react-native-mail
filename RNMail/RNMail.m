@@ -113,18 +113,18 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                         mimeType = @"application/zip";
                     } else if ([attachmentType isEqualToString:@"text"]) {
                         mimeType = @"text/*";
-            } else if ([attachmentType isEqualToString:@"mp3"]) {
-                mimeType = @"audio/mpeg";
-            } else if ([attachmentType isEqualToString:@"wav"]) {
-                mimeType = @"audio/wav";
-            } else if ([attachmentType isEqualToString:@"aiff"]) {
-                mimeType = @"audio/aiff";
-            } else if ([attachmentType isEqualToString:@"flac"]) {
-                mimeType = @"audio/flac";
-            } else if ([attachmentType isEqualToString:@"ogg"]) {
-                mimeType = @"audio/ogg";
-            } else if ([attachmentType isEqualToString:@"xls"]) {
-                mimeType = @"application/vnd.ms-excel";     
+                    } else if ([attachmentType isEqualToString:@"mp3"]) {
+                        mimeType = @"audio/mpeg";
+                    } else if ([attachmentType isEqualToString:@"wav"]) {
+                        mimeType = @"audio/wav";
+                    } else if ([attachmentType isEqualToString:@"aiff"]) {
+                        mimeType = @"audio/aiff";
+                    } else if ([attachmentType isEqualToString:@"flac"]) {
+                        mimeType = @"audio/flac";
+                    } else if ([attachmentType isEqualToString:@"ogg"]) {
+                        mimeType = @"audio/ogg";
+                    } else if ([attachmentType isEqualToString:@"xls"]) {
+                        mimeType = @"application/vnd.ms-excel";
                     }
                     [mail addAttachmentData:fileData mimeType:mimeType fileName:attachmentName];
                 }
