@@ -36,9 +36,9 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             NSString *subject = [RCTConvert NSString:options[@"subject"]];
             [mail setSubject:subject];
         }
-        
+
         bool *isHTML = NO;
-        
+
         if (options[@"isHTML"]){
             isHTML = [options[@"isHTML"] boolValue];
         }
@@ -57,7 +57,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             NSArray *ccRecipients = [RCTConvert NSArray:options[@"ccRecipients"]];
             [mail setCcRecipients:ccRecipients];
         }
-        
+
         if (options[@"bccRecipients"]){
             NSArray *bccRecipients = [RCTConvert NSArray:options[@"bccRecipients"]];
             [mail setBccRecipients:bccRecipients];
@@ -73,12 +73,23 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 attachmentName = [[attachmentPath lastPathComponent] stringByDeletingPathExtension];
             }
 
+            // Get the URL string, which is *not* a path (e.g. because it's file:// based)
+            NSString *attachmentURLString = [RCTConvert NSString:options[@"attachment"][@"path"]];
+            // Create a URL from the string
+            NSURL *attachmentURL = [[NSURLComponents componentsWithString:attachmentURLString] URL];
+
             // Get the resource path and read the file using NSData
-            NSData *fileData = [NSData dataWithContentsOfFile:attachmentPath];
+            NSError *error = nil;
+            NSData *fileData = [NSData dataWithContentsOfURL:attachmentURL options:0 error:&error];
+
+            if(fileData == nil) {
+                // handle error
+            }
+
 
             // Determine the MIME type
             NSString *mimeType;
-            
+
             /*
              * Add additional mime types and PR if necessary. Find the list
              * of supported formats at http://www.iana.org/assignments/media-types/media-types.xhtml
