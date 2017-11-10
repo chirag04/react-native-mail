@@ -66,32 +66,37 @@ public class RNMailModule extends ReactContextBaseJavaModule {
         i.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(body));
       } else {
         i.putExtra(Intent.EXTRA_TEXT, body);
-      }
+    }
     }
 
     if (options.hasKey("recipients") && !options.isNull("recipients")) {
       ReadableArray recipients = options.getArray("recipients");
       i.putExtra(Intent.EXTRA_EMAIL, readableArrayToStringArray(recipients));
-    }
+      }
 
     if (options.hasKey("ccRecipients") && !options.isNull("ccRecipients")) {
       ReadableArray ccRecipients = options.getArray("ccRecipients");
       i.putExtra(Intent.EXTRA_CC, readableArrayToStringArray(ccRecipients));
     }
+    if (options.hasKey("attachments") && !options.isNull("attachments")) {
+      ReadableArray r = options.getArray("attachments");
+      int length = r.size();
+      ArrayList<Uri> uris = new ArrayList<Uri>();
+      for (int keyIndex = 0; keyIndex < length; keyIndex++) {
+        ReadableMap clip = r.getMap(keyIndex);
+        if (clip.hasKey("path") && !clip.isNull("path")){
+          String path = clip.getString("path");
+          File file = new File(path);
+          Uri u = Uri.fromFile(file);
+          uris.add(u);
+        }
+      }
+      i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+    }
 
     if (options.hasKey("bccRecipients") && !options.isNull("bccRecipients")) {
       ReadableArray bccRecipients = options.getArray("bccRecipients");
       i.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
-    }
-
-    if (options.hasKey("attachment") && !options.isNull("attachment")) {
-      ReadableMap attachment = options.getMap("attachment");
-      if (attachment.hasKey("path") && !attachment.isNull("path")) {
-        String path = attachment.getString("path");
-        File file = new File(path);
-        Uri p = Uri.fromFile(file);
-        i.putExtra(Intent.EXTRA_STREAM, p);
-      }
     }
 
     PackageManager manager = reactContext.getPackageManager();
@@ -110,14 +115,14 @@ public class RNMailModule extends ReactContextBaseJavaModule {
         callback.invoke("error");
       }
     } else {
-      Intent chooser = Intent.createChooser(i, "Send Mail");
-      chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    Intent chooser = Intent.createChooser(i, "Send Mail");
+    chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-      try {
-        reactContext.startActivity(chooser);
-      } catch (Exception ex) {
-        callback.invoke("error");
-      }
+    try {
+      reactContext.startActivity(chooser);
+    } catch (Exception ex) {
+      callback.invoke("error");
     }
   }
+}
 }
