@@ -127,7 +127,7 @@ export default class App extends Component {
       isHTML: true,
       attachment: {
         path: '',  // The absolute path of the file from which to read data.
-        type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
+        type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
         name: '',   // Optional: Custom filename for attachment
       }
     }, (error, event) => {
