@@ -39,7 +39,6 @@
 		46FEDE7F1AFF192F00D3261C /* libRNMail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNMail.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		46FEDE821AFF192F00D3261C /* RNMail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNMail.h; sourceTree = "<group>"; };
 		46FEDE841AFF192F00D3261C /* RNMail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNMail.m; sourceTree = "<group>"; };
-		46FEDE8A1AFF192F00D3261C /* RNMailTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RNMailTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46FEDE901AFF192F00D3261C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,7 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				46FEDE7F1AFF192F00D3261C /* libRNMail.a */,
-				46FEDE8A1AFF192F00D3261C /* RNMailTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,7 +138,6 @@
 			);
 			name = RNMailTests;
 			productName = RNMailTests;
-			productReference = 46FEDE8A1AFF192F00D3261C /* RNMailTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
