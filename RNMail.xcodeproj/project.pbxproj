@@ -39,7 +39,6 @@
 		46FEDE7F1AFF192F00D3261C /* libRNMail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNMail.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		46FEDE821AFF192F00D3261C /* RNMail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNMail.h; sourceTree = "<group>"; };
 		46FEDE841AFF192F00D3261C /* RNMail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNMail.m; sourceTree = "<group>"; };
-		46FEDE901AFF192F00D3261C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +64,6 @@
 			isa = PBXGroup;
 			children = (
 				46FEDE811AFF192F00D3261C /* RNMail */,
-				46FEDE8E1AFF192F00D3261C /* RNMailTests */,
 				46FEDE801AFF192F00D3261C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,22 +83,6 @@
 				46FEDE841AFF192F00D3261C /* RNMail.m */,
 			);
 			path = RNMail;
-			sourceTree = "<group>";
-		};
-		46FEDE8E1AFF192F00D3261C /* RNMailTests */ = {
-			isa = PBXGroup;
-			children = (
-				46FEDE8F1AFF192F00D3261C /* Supporting Files */,
-			);
-			path = RNMailTests;
-			sourceTree = "<group>";
-		};
-		46FEDE8F1AFF192F00D3261C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				46FEDE901AFF192F00D3261C /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
