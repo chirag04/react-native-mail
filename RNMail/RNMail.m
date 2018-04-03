@@ -78,20 +78,22 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 attachmentName = [[attachmentPath lastPathComponent] stringByDeletingPathExtension];
             }
 
-            // Get the resource path and read the file using NSData
-            NSData *fileData = [NSData dataWithContentsOfFile:attachmentPath];
+            NSData *fileData;
 
             if ([attachmentPath hasPrefix:@"file://"]) {
                 // Create a URL from the string
                 NSURL *attachmentURL = [[NSURLComponents componentsWithString:attachmentPath] URL];
+                NSError *error = nil;
 
                 // Get the resource path and read the file using NSData
-                NSError *error = nil;
                 fileData = [NSData dataWithContentsOfURL:attachmentURL options:0 error:&error];
 
-                if(fileData == nil) {
+                if (error) {
                     callback(@[@"bad_path"]);
                 }
+            } else {
+                // Get the resource path and read the file using NSData
+                fileData = [NSData dataWithContentsOfFile:attachmentPath];
             }
 
             // Determine the MIME type
