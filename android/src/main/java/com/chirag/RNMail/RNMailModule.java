@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.text.Html;
 import android.util.Log;
 
@@ -64,7 +65,6 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE);
     i.setType("message/rfc822");
 
-
     if (options.hasKey("subject") && !options.isNull("subject")) {
       i.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
     }
@@ -94,6 +94,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     }
 
     if (options.hasKey("attachments") && !options.isNull("attachments")) {
+
       ReadableArray r = options.getArray("attachments");
       int length = r.size();
       ArrayList<Uri> uris = new ArrayList<Uri>();
@@ -114,26 +115,35 @@ public class RNMailModule extends ReactContextBaseJavaModule {
           if (clip.hasKey("type"))
             suffix = "." + clip.getString("type");
 
-          File temporaryFile = null;
-          try {
-            temporaryFile = File.createTempFile(name, suffix, reactContext.getExternalCacheDir());
-            copy (file, temporaryFile);
-          } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("RNMail", "Error copying to temporary file");
-          }
 
-          temporaryFile.setReadable(true, false);
-          if (temporaryFile.exists()) {
-            if (temporaryFile.length() == 0)
+          file.setReadable(true, false);
+          if (file.exists()) {
+
+            if (file.length() == 0)
               Log.d ("RNMail", "Warning, attaching empty file!");
-            uris.add(Uri.fromFile(temporaryFile));
+            // Use the FileProvider to get a content URI
+            try {
+              Uri fileUri = FileProvider.getUriForFile(
+                      getCurrentActivity(),
+                      reactContext.getPackageName() + ".fileprovider",
+                      file);
+              if (fileUri != null) {
+                // Grant temporary read permission to the content URI
+                uris.add(fileUri);
+              }
+            } catch (Exception e) {
+              String message = "There was a problem sharing the file " + file.getName();
+              Log.e("RNMail", message);
+              callback.invoke("error", message + "\n" + e.getMessage());
+            }
           } else {
             Log.e("RNMail", "Attachment file does not exist");
           }
         }
       }
+      i.setType("*/*");
       i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+      i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
 
     PackageManager manager = reactContext.getPackageManager();
@@ -148,37 +158,18 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       try {
         reactContext.startActivity(i);
-      } catch (Exception ex) {
-        callback.invoke("error");
+      } catch (Exception e) {
+        callback.invoke("error", e.getMessage());
       }
     } else {
       Intent chooser = Intent.createChooser(i, "Send email...");
       chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       try {
         reactContext.startActivity(chooser);
-      } catch (Exception ex) {
-        callback.invoke("error");
+      } catch (Exception e) {
+        callback.invoke("error", e.getMessage());
       }
 
-    }
-  }
-
-  protected static void copy(File src, File dst) throws IOException {
-    InputStream in = new FileInputStream(src);
-    try {
-      OutputStream out = new FileOutputStream(dst);
-      try {
-        // Transfer bytes from in to out
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = in.read(buf)) > 0) {
-          out.write(buf, 0, len);
-        }
-      } finally {
-        out.close();
-      }
-    } finally {
-      in.close();
     }
   }
 }
