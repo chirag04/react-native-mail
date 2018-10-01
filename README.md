@@ -91,6 +91,11 @@ public class MainApplication extends Application implements ReactApplication {
 
 ```
 
+#### File Attachments on Android
+
+Addition setup is required for Android file sharing, see https://developer.android.com/training/secure-file-sharing/setup-sharing
+
+It is expected that the `android:authorities` property is set to the app's package name with ".fileprovider" appended to the end.
 
 
 ### Manual Installation: iOS
@@ -162,7 +167,7 @@ export default class App extends Component {
 
 ### Note
 
-On Android, the `callback` will only be called if an `error` occurs. The `event` argument is unused!
+On Android, the `callback` will only be called if an `error` occurs. The `event` argument will contain a string with the exception or error message.
 
 ## Here is how it looks:
 ![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.png)
