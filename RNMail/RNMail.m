@@ -41,9 +41,9 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             NSString *subject = [RCTConvert NSString:options[@"subject"]];
             [mail setSubject:subject];
         }
-        
+
         bool *isHTML = NO;
-        
+
         if (options[@"isHTML"]){
             isHTML = [options[@"isHTML"] boolValue];
         }
@@ -62,7 +62,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             NSArray *ccRecipients = [RCTConvert NSArray:options[@"ccRecipients"]];
             [mail setCcRecipients:ccRecipients];
         }
-        
+
         if (options[@"bccRecipients"]){
             NSArray *bccRecipients = [RCTConvert NSArray:options[@"bccRecipients"]];
             [mail setBccRecipients:bccRecipients];
@@ -78,12 +78,27 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 attachmentName = [[attachmentPath lastPathComponent] stringByDeletingPathExtension];
             }
 
-            // Get the resource path and read the file using NSData
-            NSData *fileData = [NSData dataWithContentsOfFile:attachmentPath];
+            NSData *fileData;
+
+            if ([attachmentPath hasPrefix:@"file://"]) {
+                // Create a URL from the string
+                NSURL *attachmentURL = [[NSURLComponents componentsWithString:attachmentPath] URL];
+                NSError *error = nil;
+
+                // Get the resource path and read the file using NSData
+                fileData = [NSData dataWithContentsOfURL:attachmentURL options:0 error:&error];
+
+                if (error) {
+                    callback(@[@"bad_path"]);
+                }
+            } else {
+                // Get the resource path and read the file using NSData
+                fileData = [NSData dataWithContentsOfFile:attachmentPath];
+            }
 
             // Determine the MIME type
             NSString *mimeType;
-            
+
             /*
              * Add additional mime types and PR if necessary. Find the list
              * of supported formats at http://www.iana.org/assignments/media-types/media-types.xhtml
@@ -121,7 +136,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             } else if ([attachmentType isEqualToString:@"ogg"]) {
                 mimeType = @"audio/ogg";
             } else if ([attachmentType isEqualToString:@"xls"]) {
-                mimeType = @"application/vnd.ms-excel";     
+                mimeType = @"application/vnd.ms-excel";
             }
 
             // Add attachment
