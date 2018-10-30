@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.text.Html;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -26,6 +27,8 @@ public class RNMailModule extends ReactContextBaseJavaModule {
   public RNMailModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
+    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+    StrictMode.setVmPolicy(builder.build());
   }
 
   @Override
