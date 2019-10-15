@@ -9,18 +9,7 @@
 /* Begin PBXBuildFile section */
 		46FEDE831AFF192F00D3261C /* RNMail.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 46FEDE821AFF192F00D3261C /* RNMail.h */; };
 		46FEDE851AFF192F00D3261C /* RNMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FEDE841AFF192F00D3261C /* RNMail.m */; };
-		46FEDE8B1AFF192F00D3261C /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FEDE7F1AFF192F00D3261C /* libRNMail.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		46FEDE8C1AFF192F00D3261C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 46FEDE771AFF192F00D3261C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 46FEDE7E1AFF192F00D3261C;
-			remoteInfo = RNMail;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		46FEDE7D1AFF192F00D3261C /* CopyFiles */ = {
@@ -39,8 +28,6 @@
 		46FEDE7F1AFF192F00D3261C /* libRNMail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNMail.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		46FEDE821AFF192F00D3261C /* RNMail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNMail.h; sourceTree = "<group>"; };
 		46FEDE841AFF192F00D3261C /* RNMail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNMail.m; sourceTree = "<group>"; };
-		46FEDE8A1AFF192F00D3261C /* RNMailTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RNMailTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		46FEDE901AFF192F00D3261C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,14 +38,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		46FEDE871AFF192F00D3261C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				46FEDE8B1AFF192F00D3261C /* libRNMail.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -66,7 +45,6 @@
 			isa = PBXGroup;
 			children = (
 				46FEDE811AFF192F00D3261C /* RNMail */,
-				46FEDE8E1AFF192F00D3261C /* RNMailTests */,
 				46FEDE801AFF192F00D3261C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -75,7 +53,6 @@
 			isa = PBXGroup;
 			children = (
 				46FEDE7F1AFF192F00D3261C /* libRNMail.a */,
-				46FEDE8A1AFF192F00D3261C /* RNMailTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -87,22 +64,6 @@
 				46FEDE841AFF192F00D3261C /* RNMail.m */,
 			);
 			path = RNMail;
-			sourceTree = "<group>";
-		};
-		46FEDE8E1AFF192F00D3261C /* RNMailTests */ = {
-			isa = PBXGroup;
-			children = (
-				46FEDE8F1AFF192F00D3261C /* Supporting Files */,
-			);
-			path = RNMailTests;
-			sourceTree = "<group>";
-		};
-		46FEDE8F1AFF192F00D3261C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				46FEDE901AFF192F00D3261C /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,24 +86,6 @@
 			productReference = 46FEDE7F1AFF192F00D3261C /* libRNMail.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		46FEDE891AFF192F00D3261C /* RNMailTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 46FEDE961AFF192F00D3261C /* Build configuration list for PBXNativeTarget "RNMailTests" */;
-			buildPhases = (
-				46FEDE861AFF192F00D3261C /* Sources */,
-				46FEDE871AFF192F00D3261C /* Frameworks */,
-				46FEDE881AFF192F00D3261C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				46FEDE8D1AFF192F00D3261C /* PBXTargetDependency */,
-			);
-			name = RNMailTests;
-			productName = RNMailTests;
-			productReference = 46FEDE8A1AFF192F00D3261C /* RNMailTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -153,9 +96,6 @@
 				ORGANIZATIONNAME = "Chirag Jain";
 				TargetAttributes = {
 					46FEDE7E1AFF192F00D3261C = {
-						CreatedOnToolsVersion = 6.3.1;
-					};
-					46FEDE891AFF192F00D3261C = {
 						CreatedOnToolsVersion = 6.3.1;
 					};
 				};
@@ -173,20 +113,9 @@
 			projectRoot = "";
 			targets = (
 				46FEDE7E1AFF192F00D3261C /* RNMail */,
-				46FEDE891AFF192F00D3261C /* RNMailTests */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		46FEDE881AFF192F00D3261C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		46FEDE7B1AFF192F00D3261C /* Sources */ = {
@@ -197,22 +126,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		46FEDE861AFF192F00D3261C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		46FEDE8D1AFF192F00D3261C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 46FEDE7E1AFF192F00D3261C /* RNMail */;
-			targetProxy = 46FEDE8C1AFF192F00D3261C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		46FEDE911AFF192F00D3261C /* Debug */ = {
@@ -312,40 +226,6 @@
 			};
 			name = Release;
 		};
-		46FEDE971AFF192F00D3261C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = RNMailTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "cj.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		46FEDE981AFF192F00D3261C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = RNMailTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "cj.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -363,15 +243,6 @@
 			buildConfigurations = (
 				46FEDE941AFF192F00D3261C /* Debug */,
 				46FEDE951AFF192F00D3261C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		46FEDE961AFF192F00D3261C /* Build configuration list for PBXNativeTarget "RNMailTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				46FEDE971AFF192F00D3261C /* Debug */,
-				46FEDE981AFF192F00D3261C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
