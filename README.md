@@ -166,3 +166,12 @@ On Android, the `callback` will only be called if an `error` occurs. The `event`
 
 ## Here is how it looks:
 ![Demo gif](https://github.com/chirag04/react-native-mail/blob/master/screenshot.png)
+
+### Added Multiple Files Attachments
+```javascript
+attachment: {
+                path: attachments,  // Arrays of absolute file paths
+                type: 'txt',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+                name: '',   // Optional: Custom filename for attachment
+            }
+          ```

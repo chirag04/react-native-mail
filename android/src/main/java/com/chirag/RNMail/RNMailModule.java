@@ -15,6 +15,7 @@ import com.facebook.react.bridge.Callback;
 
 import java.util.List;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * NativeModule that allows JS to open emails sending apps chooser.
@@ -53,8 +54,8 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void mail(ReadableMap options, Callback callback) {
-    Intent i = new Intent(Intent.ACTION_SENDTO);
-    i.setData(Uri.parse("mailto:"));
+    Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE); 
+    i.setType("message/rfc822");
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
       i.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
@@ -84,15 +85,22 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       i.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
     }
 
-    if (options.hasKey("attachment") && !options.isNull("attachment")) {
-      ReadableMap attachment = options.getMap("attachment");
-      if (attachment.hasKey("path") && !attachment.isNull("path")) {
+    if (options.hasKey("attachment") && !options.isNull("attachment")) 
+    { 
+      ReadableMap attachment = options.getMap("attachment"); 
+      if (attachment.hasKey("path") && !attachment.isNull("path")) { 
         String path = attachment.getString("path");
-        File file = new File(path);
-        Uri p = Uri.fromFile(file);
-        i.putExtra(Intent.EXTRA_STREAM, p);
-      }
-    }
+        String[] paths = path.split(",");
+        ArrayList<Uri> uris = new ArrayList<Uri>();
+        for(int index = 0; index < paths.length; index++){
+          File file = new File(paths[index]);
+          Uri p = Uri.fromFile(file);
+          uris.add(p);
+          }
+        i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+      } 
+    } 
+
 
     PackageManager manager = reactContext.getPackageManager();
     List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
