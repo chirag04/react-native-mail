@@ -42,7 +42,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             [mail setSubject:subject];
         }
 
-        bool *isHTML = NO;
+        BOOL isHTML = NO;
 
         if (options[@"isHTML"]){
             isHTML = [options[@"isHTML"] boolValue];
@@ -72,7 +72,13 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
             NSString *attachmentPath = [RCTConvert NSString:options[@"attachment"][@"path"]];
             NSString *attachmentType = [RCTConvert NSString:options[@"attachment"][@"type"]];
             NSString *attachmentName = [RCTConvert NSString:options[@"attachment"][@"name"]];
-
+            
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            if (![fileManager fileExistsAtPath:attachmentPath]){
+                callback(@[[NSString stringWithFormat: @"attachment file with path '%@' does not exist", attachmentPath]]);
+                return;
+            }
+            
             // Set default filename if not specificed
             if (!attachmentName) {
                 attachmentName = [[attachmentPath lastPathComponent] stringByDeletingPathExtension];
@@ -83,53 +89,40 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
 
             // Determine the MIME type
             NSString *mimeType;
-
-            /*
-             * Add additional mime types and PR if necessary. Find the list
-             * of supported formats at http://www.iana.org/assignments/media-types/media-types.xhtml
-             */
-            if ([attachmentType isEqualToString:@"jpg"]) {
-                mimeType = @"image/jpeg";
-            } else if ([attachmentType isEqualToString:@"png"]) {
-                mimeType = @"image/png";
-            } else if ([attachmentType isEqualToString:@"doc"]) {
-                mimeType = @"application/msword";
-            } else if ([attachmentType isEqualToString:@"docx"]) {
-                mimeType = @"application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-            } else if ([attachmentType isEqualToString:@"ppt"]) {
-                mimeType = @"application/vnd.ms-powerpoint";
-            } else if ([attachmentType isEqualToString:@"pptx"]) {
-                mimeType = @"application/vnd.openxmlformats-officedocument.presentationml.presentation";
-            } else if ([attachmentType isEqualToString:@"html"]) {
-                mimeType = @"text/html";
-            } else if ([attachmentType isEqualToString:@"csv"]) {
-                mimeType = @"text/csv";
-            } else if ([attachmentType isEqualToString:@"pdf"]) {
-                mimeType = @"application/pdf";
-            } else if ([attachmentType isEqualToString:@"vcard"]) {
-                mimeType = @"text/vcard";
-            } else if ([attachmentType isEqualToString:@"json"]) {
-                mimeType = @"application/json";
-            } else if ([attachmentType isEqualToString:@"zip"]) {
-                mimeType = @"application/zip";
-            } else if ([attachmentType isEqualToString:@"text"]) {
-                mimeType = @"text/*";
-            } else if ([attachmentType isEqualToString:@"mp3"]) {
-                mimeType = @"audio/mpeg";
-            } else if ([attachmentType isEqualToString:@"wav"]) {
-                mimeType = @"audio/wav";
-            } else if ([attachmentType isEqualToString:@"aiff"]) {
-                mimeType = @"audio/aiff";
-            } else if ([attachmentType isEqualToString:@"flac"]) {
-                mimeType = @"audio/flac";
-            } else if ([attachmentType isEqualToString:@"ogg"]) {
-                mimeType = @"audio/ogg";
-            } else if ([attachmentType isEqualToString:@"xls"]) {
-                mimeType = @"application/vnd.ms-excel";
-            } else if ([attachmentType isEqualToString:@"ics"]) {
-                mimeType = @"text/calendar"; 
-            } else if ([attachmentType isEqualToString:@"xlsx"]) {
-                mimeType = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            if (attachmentType) {
+                /*
+                * Add additional mime types and PR if necessary. Find the list
+                * of supported formats at http://www.iana.org/assignments/media-types/media-types.xhtml
+                */
+                NSDictionary *supportedMimeTypes = @{
+                    @"jpg" : @"image/jpeg",
+                    @"png" : @"image/png",
+                    @"doc" : @"application/msword",
+                    @"docx" : @"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    @"ppt" : @"application/vnd.ms-powerpoint",
+                    @"pptx" : @"application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    @"html" : @"text/html",
+                    @"csv" : @"text/csv",
+                    @"pdf" : @"application/pdf",
+                    @"vcard" : @"text/vcard",
+                    @"json" : @"application/json",
+                    @"zip" : @"application/zip",
+                    @"text" : @"text/*",
+                    @"mp3" : @"audio/mpeg",
+                    @"wav" : @"audio/wav",
+                    @"aiff" : @"audio/aiff",
+                    @"flac" : @"audio/flac",
+                    @"ogg" : @"audio/ogg",
+                    @"xls" : @"application/vnd.ms-excel",
+                    @"ics" : @"text/calendar",
+                    @"xlsx" : @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                };
+                if([supportedMimeTypes objectForKey:attachmentType]) {
+                    mimeType = [supportedMimeTypes objectForKey:attachmentType];
+                } else {
+                    callback(@[[NSString stringWithFormat: @"Mime type '%@' for attachment is not handled", attachmentType]]);
+                    return;
+                }
             }
 
             // Add attachment
