@@ -95,6 +95,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                 * of supported formats at http://www.iana.org/assignments/media-types/media-types.xhtml
                 */
                 NSDictionary *supportedMimeTypes = @{
+                    @"jpeg" : @"image/jpeg",
                     @"jpg" : @"image/jpeg",
                     @"png" : @"image/png",
                     @"doc" : @"application/msword",
