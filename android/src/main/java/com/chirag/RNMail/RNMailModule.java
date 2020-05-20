@@ -84,15 +84,21 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       i.putExtra(Intent.EXTRA_BCC, readableArrayToStringArray(bccRecipients));
     }
 
-    if (options.hasKey("attachment") && !options.isNull("attachment")) {
-      ReadableMap attachment = options.getMap("attachment");
-      if (attachment.hasKey("path") && !attachment.isNull("path")) {
-        String path = attachment.getString("path");
-        File file = new File(path);
-        Uri p = Uri.fromFile(file);
-        i.putExtra(Intent.EXTRA_STREAM, p);
-      }
-    }
+    if (options.hasKey("attachments") && !options.isNull("attachments")) {
+       ReadableArray r = options.getArray("attachments");
+       int length = r.size();
+       ArrayList<Uri> uris = new ArrayList<Uri>();
+       for (int keyIndex = 0; keyIndex < length; keyIndex++) {
+         ReadableMap clip = r.getMap(keyIndex);
+         if (clip.hasKey("path") && !clip.isNull("path")){
+           String path = clip.getString("path");
+           File file = new File(path);
+           Uri u = Uri.fromFile(file);
+           uris.add(u);
+         }
+       }
+       i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+     }
 
     PackageManager manager = reactContext.getPackageManager();
     List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
