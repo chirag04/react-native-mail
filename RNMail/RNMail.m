@@ -128,7 +128,7 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
                             return;
                         }
                     } else if (attachmentMimeType) {
-                        mimeType = attattachmentMimeType;
+                        mimeType = attachmentMimeType;
                     }
                     
                     // Add attachment
