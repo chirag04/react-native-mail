@@ -117,7 +117,13 @@ public class RNMailModule extends ReactContextBaseJavaModule {
         callback.invoke("error");
       }
     } else {
-      Intent chooser = Intent.createChooser(i, "Send Mail");
+      String chooserTitle = "Send Mail";
+      
+      if (options.hasKey("customChooserTitle") && !options.isNull("customChooserTitle")) {
+        chooserTitle = options.getString("customChooserTitle");
+      } 
+      
+      Intent chooser = Intent.createChooser(i, chooserTitle);
       chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
       try {
