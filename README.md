@@ -124,6 +124,7 @@ export default class App extends Component {
       ccRecipients: ['supportCC@example.com'],
       bccRecipients: ['supportBCC@example.com'],
       body: '<b>A Bold Body</b>',
+      customChooserTitle: "This is my new title", // Android only
       isHTML: true,
       attachments: [{
         path: '',  // The absolute path of the file from which to read data.
