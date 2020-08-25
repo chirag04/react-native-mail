@@ -98,7 +98,12 @@ public class RNMailModule extends ReactContextBaseJavaModule {
            uris.add(u);
          }
        }
-       i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+      
+       if (uris.size() == 1) {
+         i.putExtra(Intent.EXTRA_STREAM, uris.get(0));
+       } else {
+         i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+       }
      }
 
     PackageManager manager = reactContext.getPackageManager();
