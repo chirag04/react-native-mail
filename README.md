@@ -117,7 +117,7 @@ import Mailer from 'react-native-mail';
 
 export default class App extends Component {
 
-  handleEmail = () => {
+  handleEmail = (filePath) => {
     Mailer.mail({
       subject: 'need help',
       recipients: ['support@example.com'],
@@ -126,12 +126,13 @@ export default class App extends Component {
       body: '<b>A Bold Body</b>',
       customChooserTitle: "This is my new title", // Android only (defaults to "Send Mail")
       isHTML: true,
-      attachments: [{
-        path: '',  // The absolute path of the file from which to read data.
-        type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+      // For single file attachment
+      attachments: {
+        path: filePath,  // The absolute path of the file from which to read data.
+        type: 'pdf',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
         // mimeType - use only if you want to use custom type
         name: '',   // Optional: Custom filename for attachment
-      }]
+      }
     }, (error, event) => {
       Alert.alert(
         error,

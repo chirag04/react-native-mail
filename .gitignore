@@ -26,3 +26,21 @@ project.xcworkspace
 #
 node_modules/
 npm-debug.log
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+gradlew
+gradlew.bat
+gradle-wrapper.jar
+gradle-wrapper.properties
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+!debug.keystore
