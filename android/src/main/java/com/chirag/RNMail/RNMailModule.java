@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.Html;
+import androidx.core.content.FileProvider;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -15,6 +16,7 @@ import com.facebook.react.bridge.Callback;
 
 import java.util.List;
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 
 /**
@@ -54,8 +56,9 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void mail(ReadableMap options, Callback callback) {
-    Intent i = new Intent(Intent.ACTION_SENDTO);
-    i.setData(Uri.parse("mailto:"));
+    Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE);
+    Intent selectorIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"));
+    i.setSelector(selectorIntent);
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
       i.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
@@ -86,25 +89,33 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     }
 
     if (options.hasKey("attachments") && !options.isNull("attachments")) {
-       ReadableArray r = options.getArray("attachments");
-       int length = r.size();
-       ArrayList<Uri> uris = new ArrayList<Uri>();
-       for (int keyIndex = 0; keyIndex < length; keyIndex++) {
-         ReadableMap clip = r.getMap(keyIndex);
-         if (clip.hasKey("path") && !clip.isNull("path")){
-           String path = clip.getString("path");
-           File file = new File(path);
-           Uri u = Uri.fromFile(file);
-           uris.add(u);
-         }
-       }
-      
-       if (uris.size() == 1) {
-         i.putExtra(Intent.EXTRA_STREAM, uris.get(0));
-       } else {
-         i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-       }
-     }
+      ReadableArray r = options.getArray("attachments");
+      int length = r.size();
+
+      String provider = reactContext.getApplicationContext().getPackageName() + ".rnmail.provider";
+      List<ResolveInfo> resolvedIntentActivities = reactContext.getPackageManager().queryIntentActivities(i,
+            PackageManager.MATCH_DEFAULT_ONLY);
+
+      ArrayList<Uri> uris = new ArrayList<Uri>();
+      for (int keyIndex = 0; keyIndex < length; keyIndex++) {
+        ReadableMap clip = r.getMap(keyIndex);
+        if (clip.hasKey("path") && !clip.isNull("path")){
+          String path = clip.getString("path");
+          File file = new File(path);
+          Uri uri = FileProvider.getUriForFile(reactContext, provider, file);
+          uris.add(uri);
+
+          for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
+            String packageName = resolvedIntentInfo.activityInfo.packageName;
+            reactContext.grantUriPermission(packageName, uri,
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+          }
+        }
+      }
+
+      i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+      i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+    }
 
     PackageManager manager = reactContext.getPackageManager();
     List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
@@ -123,11 +134,11 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       }
     } else {
       String chooserTitle = "Send Mail";
-      
+
       if (options.hasKey("customChooserTitle") && !options.isNull("customChooserTitle")) {
         chooserTitle = options.getString("customChooserTitle");
-      } 
-      
+      }
+
       Intent chooser = Intent.createChooser(i, chooserTitle);
       chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
