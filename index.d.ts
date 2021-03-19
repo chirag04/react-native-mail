@@ -7,7 +7,7 @@ export namespace Mailer {
     body?: string;
     customChooserTitle?: string;
     isHTML?: boolean;
-    attachments: {
+    attachments?: {
       path: string;
       type?: string;
       mimeType?: string;
