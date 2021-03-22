@@ -124,13 +124,16 @@ export default class App extends Component {
       ccRecipients: ['supportCC@example.com'],
       bccRecipients: ['supportBCC@example.com'],
       body: '<b>A Bold Body</b>',
-      customChooserTitle: "This is my new title", // Android only (defaults to "Send Mail")
+      customChooserTitle: 'This is my new title', // Android only (defaults to "Send Mail")
       isHTML: true,
       attachments: [{
-        path: '',  // The absolute path of the file from which to read data.
-        type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-        // mimeType - use only if you want to use custom type
-        name: '',   // Optional: Custom filename for attachment
+        // Specify either `path` or `uri` to indicate where to find the file data.
+        path: '', // The absolute path of the file from which to read data.
+        uri: '', // The uri of the file from which to read the data.
+        // Specify either `type` or `mimeType` to indicate the type of data.
+        type: '', // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+        mimeType: '', // - use only if you want to use custom type
+        name: '', // Optional: Custom filename for attachment
       }]
     }, (error, event) => {
       Alert.alert(

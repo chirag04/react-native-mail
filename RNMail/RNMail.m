@@ -70,25 +70,37 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
         if (options[@"attachments"]) {
             NSArray *attachments = [RCTConvert NSArray:options[@"attachments"]];
             for (NSDictionary *attachment in attachments) {
-                if (attachment[@"path"] && (attachment[@"type"] || attachment[@"mimeType"])) {
+                if ((attachment[@"path"] || attachment[@"uri"]) && (attachment[@"type"] || attachment[@"mimeType"])) {
                     NSString *attachmentPath = [RCTConvert NSString:attachment[@"path"]];
+                    NSString *attachmentUri = [RCTConvert NSString:attachment[@"uri"]];
                     NSString *attachmentType = [RCTConvert NSString:attachment[@"type"]];
                     NSString *attachmentName = [RCTConvert NSString:attachment[@"name"]];
                     NSString *attachmentMimeType = [RCTConvert NSString:attachment[@"mimeType"]];
-                    
-                    NSFileManager *fileManager = [NSFileManager defaultManager];
-                    if (![fileManager fileExistsAtPath:attachmentPath]){
-                        callback(@[[NSString stringWithFormat: @"attachment file with path '%@' does not exist", attachmentPath]]);
-                        return;
-                    }
                     
                     // Set default filename if not specificed
                     if (!attachmentName) {
                         attachmentName = [[attachmentPath lastPathComponent] stringByDeletingPathExtension];
                     }
                     
-                    // Get the resource path and read the file using NSData
-                    NSData *fileData = [NSData dataWithContentsOfFile:attachmentPath];
+                    NSData *fileData;
+                    if (attachmentPath) {
+                        NSFileManager *fileManager = [NSFileManager defaultManager];
+                        if (![fileManager fileExistsAtPath:attachmentPath]){
+                            callback(@[[NSString stringWithFormat: @"attachment file with path '%@' does not exist", attachmentPath]]);
+                            return;
+                        }
+                        // Get the resource path and read the file using NSData
+                        fileData = [NSData dataWithContentsOfFile:attachmentPath];
+                    } else if (attachmentUri) {
+                        // Get the URI and read it using NSData
+                        NSURL *attachmentURL = [[NSURLComponents componentsWithString:attachmentUri] URL];
+                        NSError *error = nil;
+                        fileData = [NSData dataWithContentsOfURL:attachmentURL options:0 error:&error];
+                        if (!fileData) {
+                            callback(@[[NSString stringWithFormat: @"attachment file with uri '%@' does not exist", attachmentUri]]);
+                            return;
+                        }
+                    }
                     
                     // Determine the MIME type
                     NSString *mimeType;
