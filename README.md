@@ -128,6 +128,9 @@ export default class App extends Component {
       isHTML: true,
       attachments: [{
         // Specify either `path` or `uri` to indicate where to find the file data.
+        // The API used to create or locate the file will usually indicate which it returns.
+        // An absolute path will look like: /cacheDir/photos/some image.jpg
+        // A URI starts with a protocol and looks like: content://appname/cacheDir/photos/some%20image.jpg
         path: '', // The absolute path of the file from which to read data.
         uri: '', // The uri of the file from which to read the data.
         // Specify either `type` or `mimeType` to indicate the type of data.
