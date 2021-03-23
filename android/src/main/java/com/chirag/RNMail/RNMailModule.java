@@ -99,17 +99,24 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       ArrayList<Uri> uris = new ArrayList<Uri>();
       for (int keyIndex = 0; keyIndex < length; keyIndex++) {
         ReadableMap clip = r.getMap(keyIndex);
-        if (clip.hasKey("path") && !clip.isNull("path")){
+        Uri uri;
+        if (clip.hasKey("path") && !clip.isNull("path")) {
           String path = clip.getString("path");
           File file = new File(path);
-          Uri uri = FileProvider.getUriForFile(reactContext, provider, file);
-          uris.add(uri);
+          uri = FileProvider.getUriForFile(reactContext, provider, file);
+        } else if (clip.hasKey("uri") && !clip.isNull("uri")) {
+          String uriPath = clip.getString("uri");
+          uri = Uri.parse(uriPath);
+        } else {
+          callback.invoke("not_found");
+          return;
+        }
+        uris.add(uri);
 
-          for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
-            String packageName = resolvedIntentInfo.activityInfo.packageName;
-            reactContext.grantUriPermission(packageName, uri,
-                Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-          }
+        for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
+          String packageName = resolvedIntentInfo.activityInfo.packageName;
+          reactContext.grantUriPermission(packageName, uri,
+              Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
       }
 

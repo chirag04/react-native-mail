@@ -8,8 +8,9 @@ export namespace Mailer {
     customChooserTitle?: string;
     isHTML?: boolean;
     attachments?: {
-      path: string;
-      type?: string;
+      path?: string; // Specify either 'path' or 'uri'
+      uri?: string;
+      type?: string; // Specify either 'type' or 'mimeType'
       mimeType?: string;
       name?: string;
     }[]
