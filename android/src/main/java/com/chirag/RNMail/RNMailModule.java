@@ -136,7 +136,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       try {
         reactContext.startActivity(i);
-        callback.invoke("success");
+        callback.invoke();
       } catch (Exception ex) {
         callback.invoke("error");
       }
@@ -152,7 +152,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
       try {
         reactContext.startActivity(chooser);
-        callback.invoke("success");
+        callback.invoke();
       } catch (Exception ex) {
         callback.invoke("error");
       }
