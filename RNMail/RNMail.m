@@ -188,11 +188,8 @@ RCT_EXPORT_METHOD(mail:(NSDictionary *)options
     } else {
         RCTLogWarn(@"No callback registered for mail: %@", controller.title);
     }
-    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    while (ctrl.presentedViewController && ctrl != controller) {
-        ctrl = ctrl.presentedViewController;
-    }
-    [ctrl dismissViewControllerAnimated:YES completion:nil];
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark Private
