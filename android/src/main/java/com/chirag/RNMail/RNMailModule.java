@@ -18,6 +18,7 @@ import java.util.List;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import android.os.Build;
 
 /**
  * NativeModule that allows JS to open emails sending apps chooser.
@@ -127,7 +128,7 @@ public class RNMailModule extends ReactContextBaseJavaModule {
     PackageManager manager = reactContext.getPackageManager();
     List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
 
-    if (list == null || list.size() == 0) {
+    if ((list == null || list.size() == 0) && Build.VERSION.SDK_INT < 33) {
       callback.invoke("not_available");
       return;
     }
