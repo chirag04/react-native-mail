@@ -3,6 +3,7 @@ package com.chirag.RNMail;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.ComponentName;
 import android.net.Uri;
 import android.text.Html;
 import androidx.core.content.FileProvider;
@@ -56,9 +57,14 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void mail(ReadableMap options, Callback callback) {
+    
     Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE);
-    Intent selectorIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"));
-    i.setSelector(selectorIntent);
+    if (android.os.Build.VERSION.SDK_INT >= 33) {
+      i.setType("message/rfc822");
+    } else {
+      Intent selectorIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"));
+      i.setSelector(selectorIntent);
+    }
 
     if (options.hasKey("subject") && !options.isNull("subject")) {
       i.putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
@@ -92,9 +98,17 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       ReadableArray r = options.getArray("attachments");
       int length = r.size();
 
+      int a = PackageManager.MATCH_DEFAULT_ONLY;
+      long b = new Long(a);
+
       String provider = reactContext.getApplicationContext().getPackageName() + ".rnmail.provider";
       List<ResolveInfo> resolvedIntentActivities = reactContext.getPackageManager().queryIntentActivities(i,
-            PackageManager.MATCH_DEFAULT_ONLY);
+            a);
+      
+      if (android.os.Build.VERSION.SDK_INT > 32) {
+        resolvedIntentActivities = reactContext.getPackageManager().queryIntentActivities(i,
+            android.content.pm.PackageManager.ResolveInfoFlags.of(b));
+      }
 
       ArrayList<Uri> uris = new ArrayList<Uri>();
       for (int keyIndex = 0; keyIndex < length; keyIndex++) {
@@ -124,15 +138,43 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
     }
 
-    PackageManager manager = reactContext.getPackageManager();
-    List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
+    int k = 0;
+    long l = new Long(k);
 
-    if (list == null || list.size() == 0) {
+    PackageManager packageManager = reactContext.getPackageManager();
+    List<ResolveInfo> list = packageManager.queryIntentActivities(i, k);
+
+    if (android.os.Build.VERSION.SDK_INT > 32) {
+      list = packageManager.queryIntentActivities(i, android.content.pm.PackageManager.ResolveInfoFlags.of(l));
+    }
+
+    List<ResolveInfo> emailApps = new ArrayList<>();
+    ArrayList<ComponentName> nonEmailApps = new ArrayList<>();
+      for (ResolveInfo resolveInfo : list) {
+        String packageName = resolveInfo.activityInfo.packageName;
+        String activityName = resolveInfo.activityInfo.name;
+        if (activityName.toLowerCase().contains("compose") || packageName.toLowerCase().contains("mail")) {
+          emailApps.add(resolveInfo);
+        } else {
+          nonEmailApps.add(new ComponentName(packageName, activityName));
+        }
+    }
+
+    for (ResolveInfo info : emailApps) {
+      System.out.println("emailApps list: " + info.activityInfo.packageName);
+    }
+    for (ComponentName name : nonEmailApps) {
+      System.out.println("Excluded Component list: " + name);
+    }
+
+    if (emailApps == null || emailApps.size() == 0) {
       callback.invoke("not_available");
       return;
     }
 
-    if (list.size() == 1) {
+    if (emailApps.size() == 1) {
+      ResolveInfo emailAppInfo = emailApps.get(0);
+      i.setClassName(emailAppInfo.activityInfo.packageName, emailAppInfo.activityInfo.name);
       i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       try {
         reactContext.startActivity(i);
@@ -148,6 +190,11 @@ public class RNMailModule extends ReactContextBaseJavaModule {
 
       Intent chooser = Intent.createChooser(i, chooserTitle);
       chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      
+      if (android.os.Build.VERSION.SDK_INT > 32) {
+        // Exclude non-email apps from the list
+        chooser.putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, nonEmailApps.toArray(new ComponentName[0]));
+      }
 
       try {
         reactContext.startActivity(chooser);
